@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2022 at 04:55 PM
+-- Generation Time: Jul 16, 2022 at 03:13 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -257,6 +257,35 @@ INSERT INTO `tb_det_po` (`id`, `id_po`, `id_barang`, `qty_dipesan`, `qty_tersedi
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tb_det_stok_opname`
+--
+
+CREATE TABLE `tb_det_stok_opname` (
+  `id` int(11) NOT NULL,
+  `id_stok_opname` int(11) DEFAULT NULL,
+  `id_barang` int(11) DEFAULT NULL,
+  `jml_stok_nyata` double DEFAULT NULL,
+  `stok_system` double DEFAULT NULL,
+  `akumulasi` double DEFAULT NULL,
+  `catatan` text DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_det_stok_opname`
+--
+
+INSERT INTO `tb_det_stok_opname` (`id`, `id_stok_opname`, `id_barang`, `jml_stok_nyata`, `stok_system`, `akumulasi`, `catatan`, `created_at`, `updated_at`) VALUES
+(3, 2, 2, 30, 105, -75, 'test', '2022-07-16 14:53:08', '2022-07-16 14:53:08'),
+(4, 2, 4, 12.2, 35.2, -23, 'dulu', '2022-07-16 14:53:08', '2022-07-16 14:53:08'),
+(5, 2, 5, 10, 13, -3, 'saja', '2022-07-16 14:53:08', '2022-07-16 14:53:08'),
+(6, 2, 6, 55, 174, -119, 'ayo', '2022-07-16 14:53:08', '2022-07-16 14:53:08'),
+(7, 2, 7, 22, 35, -13, 'testa', '2022-07-16 14:53:08', '2022-07-16 14:53:08');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tb_det_transaksi`
 --
 
@@ -332,6 +361,15 @@ CREATE TABLE `tb_keranjang_belanja` (
   `updated_at` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_keranjang_belanja`
+--
+
+INSERT INTO `tb_keranjang_belanja` (`id`, `id_barang`, `is_barang_has_expired_date`, `id_stok_barang`, `qty`, `created_at`, `updated_at`, `created_by`) VALUES
+(32, 7, 1, 23, 5, '2022-07-15 22:04:23', '2022-07-15 22:04:23', 1),
+(33, 5, 0, 0, 3, '2022-07-15 22:04:31', '2022-07-15 22:04:31', 1),
+(34, 7, 1, 16, 2, '2022-07-16 06:24:53', '2022-07-16 06:24:53', 1);
 
 -- --------------------------------------------------------
 
@@ -558,7 +596,13 @@ INSERT INTO `tb_logs_activity` (`id_log`, `table`, `action`, `main_data`, `data_
 (200, 'users', 'Mengubah user.', '{\"_token\":\"YpdGFmr8hq35SwZ724d97AvsBzTZTsi7SIN4egQ7\",\"user_id\":\"7\",\"role\":\"Pemilik\",\"id_supplier\":\"0\",\"name\":\"Pemilik\",\"mobile_number\":\"081\",\"username\":\"pemilik\",\"email\":\"user@pemilik.com\",\"password\":\"admin\",\"status\":\"Aktif\"}', '\"\"', '{\"id\":null}', '2022-07-15 14:27:15', NULL, 1);
 INSERT INTO `tb_logs_activity` (`id_log`, `table`, `action`, `main_data`, `data_detail`, `where`, `created_at`, `updated_at`, `created_by`) VALUES
 (201, 'users', 'Mengubah user.', '{\"_token\":\"YpdGFmr8hq35SwZ724d97AvsBzTZTsi7SIN4egQ7\",\"user_id\":\"9\",\"role\":\"Pembeli\",\"id_supplier\":\"0\",\"name\":\"Pembeli Test\",\"mobile_number\":\"0123000\",\"username\":\"pembeli\",\"email\":\"user@pembeli.com\",\"password\":\"admin\",\"status\":\"Aktif\"}', '\"\"', '{\"id\":null}', '2022-07-15 14:27:27', NULL, 1),
-(202, 'users', 'Mengubah user.', '{\"_token\":\"YpdGFmr8hq35SwZ724d97AvsBzTZTsi7SIN4egQ7\",\"user_id\":\"10\",\"role\":\"Supplier\",\"id_supplier\":\"5\",\"name\":\"Adam Supply User\",\"mobile_number\":\"0828388\",\"username\":\"adamsupply\",\"email\":\"adam@supply.com\",\"password\":\"admin\",\"status\":\"Aktif\"}', '\"\"', '{\"id\":null}', '2022-07-15 14:27:35', NULL, 1);
+(202, 'users', 'Mengubah user.', '{\"_token\":\"YpdGFmr8hq35SwZ724d97AvsBzTZTsi7SIN4egQ7\",\"user_id\":\"10\",\"role\":\"Supplier\",\"id_supplier\":\"5\",\"name\":\"Adam Supply User\",\"mobile_number\":\"0828388\",\"username\":\"adamsupply\",\"email\":\"adam@supply.com\",\"password\":\"admin\",\"status\":\"Aktif\"}', '\"\"', '{\"id\":null}', '2022-07-15 14:27:35', NULL, 1),
+(203, 'tb_keranjang_belanja', 'Menambahkan item ke keranjang belanja.', '{\"id_barang\":\"7\",\"is_barang_has_expired_date\":\"1\",\"id_stok_barang\":\"23\",\"qty\":\"5\"}', '\"\"', '\"\"', '2022-07-15 15:04:23', NULL, 1),
+(204, 'tb_keranjang_belanja', 'Menambahkan item ke keranjang belanja.', '{\"id_barang\":\"5\",\"is_barang_has_expired_date\":\"0\",\"id_stok_barang\":\"0\",\"qty\":\"3\"}', '\"\"', '\"\"', '2022-07-15 15:04:31', NULL, 1),
+(205, 'tb_keranjang_belanja', 'Menambahkan item ke keranjang belanja.', '{\"id_barang\":\"7\",\"is_barang_has_expired_date\":\"1\",\"id_stok_barang\":\"16\",\"qty\":\"2\"}', '\"\"', '\"\"', '2022-07-15 23:24:54', NULL, 1),
+(206, 'tb_stok_opname', 'Menambahkan data stok opname baru.', '{\"_token\":\"UXFTTd9uC5utFzilvHvZVrO5MFy9OzJSToZxQpMc\",\"tgl_opname\":\"2022-07-16\",\"id_barang\":[\"2\",\"5\"],\"qty_system\":[\"105\",\"13\"],\"qty_real\":[\"90\",\"5\"],\"qty_varian\":[\"-15\",\"-8\"],\"keterangan\":[\"Beng Beng beberapa kadaluarsa\",\"Gula merah dimakan semut sebagian\"]}', '\"\"', '\"\"', '2022-07-16 07:19:02', NULL, 1),
+(207, 'tb_stok_opname', 'Menghapus data stok opname.', '\"\"', '\"\"', '{\"id\":\"c4ca4238a0b923820dcc509a6f75849b\"}', '2022-07-16 07:42:56', NULL, 1),
+(208, 'tb_stok_opname', 'Menambahkan data stok opname baru.', '{\"_token\":\"UXFTTd9uC5utFzilvHvZVrO5MFy9OzJSToZxQpMc\",\"tgl_opname\":\"2022-07-16\",\"id_barang\":[\"2\",\"4\",\"5\",\"6\",\"7\"],\"qty_system\":[\"105\",\"35.2\",\"13\",\"174\",\"35\"],\"qty_real\":[\"30\",\"12.2\",\"10\",\"55\",\"22\"],\"qty_varian\":[\"-75.0\",\"-23.0\",\"-3.0\",\"-119.0\",\"-13.0\"],\"keterangan\":[\"test\",\"dulu\",\"saja\",\"ayo\",\"testa\"]}', '\"\"', '\"\"', '2022-07-16 07:53:08', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -639,15 +683,17 @@ INSERT INTO `tb_stok_barang` (`id_stok_barang`, `id_barang`, `stok`, `tgl_kadalu
 CREATE TABLE `tb_stok_opname` (
   `id` int(11) NOT NULL,
   `tgl_opname` date DEFAULT NULL,
-  `id_barang` int(11) DEFAULT NULL,
-  `jml_stok_nyata` double DEFAULT NULL,
-  `stok_system` double DEFAULT NULL,
-  `akumulasi` int(11) DEFAULT NULL,
-  `catatan` text DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `update_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_stok_opname`
+--
+
+INSERT INTO `tb_stok_opname` (`id`, `tgl_opname`, `created_at`, `updated_at`, `created_by`) VALUES
+(2, '2022-07-16', '2022-07-16 14:53:08', '2022-07-16 14:53:08', 1);
 
 -- --------------------------------------------------------
 
@@ -675,9 +721,9 @@ CREATE TABLE `tb_transaksi` (
 
 INSERT INTO `tb_transaksi` (`id`, `kode_transaksi`, `nama_pembeli`, `keterangan`, `jumlah_harga`, `diskon_nominal`, `nominal_bayar`, `status`, `created_at`, `updated_at`, `created_by`) VALUES
 (3, 'TRX-202207-PAB5XY', 'Well', 'Test', 293400, 5000, 300000, 'VOID', '2022-07-13 21:06:42', '2022-07-14 11:42:45', 1),
-(4, 'TRX-202207-N3W5WC', 'Pembeli Test', 'Saya akan ambil nanti siang', 78000, 1000, 100000, 'VOID', '2022-07-14 09:18:41', '2022-07-14 15:56:09', 9),
-(5, 'TRX-202207-VQLSON', 'Mawar', 'Testtt', 57000, 6000, 55000, 'PAID', '2022-07-14 12:08:04', '2022-07-14 12:08:04', 1),
-(6, 'TRX-202207-LHZG1W', 'Pembeli Test', 'Akan saya ambil, pasti. Bohonggg', 73500, 2500, 75000, 'PAID', '2022-07-14 15:57:42', '2022-07-14 16:22:19', 9),
+(4, 'TRX-202207-N3W5WC', 'Pembeli Test', 'Saya akan ambil nanti siang', 78000, 1000, 100000, 'VOID', '2022-07-13 09:18:41', '2022-07-14 15:56:09', 9),
+(5, 'TRX-202207-VQLSON', 'Mawar', 'Testtt', 57000, 6000, 55000, 'PAID', '2022-07-13 18:25:27', '2022-07-13 12:08:04', 1),
+(6, 'TRX-202207-LHZG1W', 'Pembeli Test', 'Akan saya ambil, pasti. Bohonggg', 73500, 2500, 75000, 'PAID', '2022-07-14 18:06:36', '2022-07-14 16:22:19', 9),
 (7, 'TRX-202207-DMVMIV', 'Pembeli Test', 'WE', 10000, 0, 10000, 'PAID', '2022-07-14 16:33:47', '2022-07-14 16:35:49', 9);
 
 -- --------------------------------------------------------
@@ -696,7 +742,7 @@ CREATE TABLE `users` (
   `username` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mobile_number` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `otp` int(6) DEFAULT NULL,
+  `otp` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` int(11) DEFAULT 0,
   `created_at` datetime DEFAULT NULL,
@@ -711,8 +757,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `photo_url`, `id_supplier`, `name`, `email`, `email_verified_at`, `username`, `password`, `mobile_number`, `otp`, `remember_token`, `created_by`, `created_at`, `updated_at`, `role`, `last_login`, `status`) VALUES
-(1, 'uploads/foto/_0000.jpg', 0, 'Admin', 'admin@admin.com', NULL, 'admin', '$2y$10$UWk0FFdd41NwCO.dmHxV/.CVznBWDYSRcmcOgbIahtR2eyRpE7Ifu', '0000', NULL, NULL, 0, NULL, '2022-07-15 21:30:35', 'Admin', '2022-07-15 21:30:35', 'Aktif'),
-(7, 'uploads/foto/1_081.jpg', 0, 'Pemilik', 'user@pemilik.com', NULL, 'pemilik', '$2y$10$kAlyrW.Qn7/MhRZn4hRJ4uPtlPT8YwNcSvU.Mdf25rGs3n9Bzlq4G', '081', NULL, NULL, 1, '2022-07-07 11:59:18', '2022-07-15 21:36:52', 'Pemilik', '2022-07-15 21:36:52', 'Aktif'),
+(1, 'uploads/foto/_0000.jpg', 0, 'Admin', 'admin@admin.com', NULL, 'admin', '$2y$10$UWk0FFdd41NwCO.dmHxV/.CVznBWDYSRcmcOgbIahtR2eyRpE7Ifu', '0000', NULL, NULL, 0, NULL, '2022-07-16 20:13:38', 'Admin', '2022-07-16 20:13:38', 'Aktif'),
+(7, 'uploads/foto/1_081.jpg', 0, 'Pemilik', 'user@pemilik.com', NULL, 'pemilik', '$2y$10$kAlyrW.Qn7/MhRZn4hRJ4uPtlPT8YwNcSvU.Mdf25rGs3n9Bzlq4G', '081', NULL, NULL, 1, '2022-07-07 11:59:18', '2022-07-16 15:13:56', 'Pemilik', '2022-07-16 15:13:56', 'Aktif'),
 (8, 'assets/logo/noimage.png', 1, 'User Supplier 1', 'user1@supplier.com', NULL, 'supplier1', '$2y$10$qPXoFjP7/IS/puh4wvO4/ekRcDi7IJsdwVmvOFtRiB7IKYeHnpzCu', '1234', NULL, NULL, 1, '2022-07-07 17:29:09', '2022-07-15 21:37:13', 'Supplier', '2022-07-15 21:37:13', 'Aktif'),
 (9, 'assets/logo/noimage.png', 0, 'Pembeli Test', 'user@pembeli.com', NULL, 'pembeli', '$2y$10$bAYVen7EkjQ5aw/v1aiciOXMEtfV1S2bJd8uLn3rAJBtf1i/UwDnS', '0123000', NULL, NULL, 1, '2022-07-14 09:14:37', '2022-07-15 21:36:32', 'Pembeli', '2022-07-15 21:36:32', 'Aktif'),
 (10, 'assets/logo/noimage.png', 5, 'Adam Supply User', 'adam@supply.com', NULL, 'adamsupply', '$2y$10$kCxrN.gspRsujNbH1z2pbOuIRtuGQguBvpCOvv.02Wkmob6gN5p7m', '0828388', NULL, NULL, 1, '2022-07-15 16:52:32', '2022-07-15 21:27:43', 'Supplier', '2022-07-15 21:27:43', 'Aktif');
@@ -758,6 +804,12 @@ ALTER TABLE `tb_barang`
 -- Indexes for table `tb_det_po`
 --
 ALTER TABLE `tb_det_po`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tb_det_stok_opname`
+--
+ALTER TABLE `tb_det_stok_opname`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -856,6 +908,12 @@ ALTER TABLE `tb_det_po`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `tb_det_stok_opname`
+--
+ALTER TABLE `tb_det_stok_opname`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `tb_det_transaksi`
 --
 ALTER TABLE `tb_det_transaksi`
@@ -871,13 +929,13 @@ ALTER TABLE `tb_harga_barang`
 -- AUTO_INCREMENT for table `tb_keranjang_belanja`
 --
 ALTER TABLE `tb_keranjang_belanja`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tb_logs_activity`
 --
 ALTER TABLE `tb_logs_activity`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
 
 --
 -- AUTO_INCREMENT for table `tb_po`
@@ -895,7 +953,7 @@ ALTER TABLE `tb_stok_barang`
 -- AUTO_INCREMENT for table `tb_stok_opname`
 --
 ALTER TABLE `tb_stok_opname`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_transaksi`
@@ -907,7 +965,7 @@ ALTER TABLE `tb_transaksi`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

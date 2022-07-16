@@ -11,10 +11,13 @@ use App\Models\HelperModel;
 use App\Models\LokasiModel;
 use App\Models\KategoriModel;
 use App\Models\MerkModel;
-use App\Models\DetPoModel;
+use App\Models\DetTransaksiModel;
 use App\Models\PoModel;
 use App\Models\LaporanModel;
 use App\Models\AksesModel;
+use App\Models\SatuanModel;
+use App\Models\StokOpNameModel;
+use App\Models\DetStokOpNameModel;
 use DataTables;
 use Illuminate\Support\Facades\DB;
 
@@ -38,32 +41,115 @@ class LaporanController extends Controller
         return view('admin.pages.laporan.barang_kategori')->with($data);
     }
 
-    public function get_laporan_kategori_barang($id){
+    public function get_list_transaksi(Request $req){
 
-        $user_id = Auth()->user()->id;
+        $ret = DB::select(DB::raw("SELECT tb_transaksi.kode_transaksi, tb_transaksi.nama_pembeli, (tb_transaksi.jumlah_harga - tb_transaksi.diskon_nominal) as `tot_harga`, tb_transaksi.created_at, tb_barang.kode_barang, tb_barang.nama_barang, tb_det_transaksi.harga_satuan_barang, tb_det_transaksi.qty, (tb_det_transaksi.harga_satuan_barang * tb_det_transaksi.qty) as `jml_harga` FROM tb_transaksi LEFT JOIN tb_det_transaksi ON(tb_transaksi.id = tb_det_transaksi.id_transaksi) LEFT JOIN tb_barang ON(tb_barang.id = tb_det_transaksi.id_barang) WHERE tb_transaksi.status = 'PAID' AND tb_det_transaksi.id_barang = ".$req->id." AND SUBSTR(tb_transaksi.created_at, 1, 10) BETWEEN '".$req->periode_dari."' AND '".$req->periode_ke."'"));
 
-        $akses = AksesModel::select('akses_wilayah')->where('user_id', $user_id)->first();
+        $ret = json_decode(json_encode($ret), true);
 
-        $json = json_decode($akses['akses_wilayah'], true);
+        $data = [
+            'ret' => $ret
+        ];
 
-        $wilayah_avail = array();
-
-        $i=0;
-        foreach ($json as $wilayah) {
-            if ($wilayah['enable']=="1") {
-                $wilayah_avail[] = $wilayah['id'];
-                $i++;
-            }
-        }
-
-        $jumlah_parent_wilayah = LokasiModel::where('parent', 0)->count();
-
-        if($jumlah_parent_wilayah == count($wilayah_avail)){
-            echo json_encode(LaporanModel::get_kategori_barang_fixed($id));
-        }else{
-            echo json_encode(LaporanModel::get_kategori_barang_fixed($id, $wilayah_avail));
-        }
+        return view('admin.pages.laporan.detail_transaksi')->with($data);
 
     }
+
+    public function get_penjualan(Request $req){
+        if($req->ajax()){
+
+            $data = BarangModel::select('tb_barang.*');
+
+            if($req->kategori != 'all'){
+
+                $arr = explode(",", $req->kategori);
+                $data->whereIn('id_kategori', $arr);
+                
+            }
+
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->editColumn('kode_barang', function($row){
+                    $btn = '<button type="button" class="btn btn-outline-primary form-control btn_detail" data-id="'.$row->id.'" data-nama="'.$row->kode_barang.' - '.$row->nama_barang.'"><i class="fa fa-eye"></i> Detail Transaksi</button>';
+                    return '<b>'.$row->kode_barang.'</b> <br/><br/> '.$btn;
+                })
+                ->editColumn('id_kategori', function($row){
+                    
+                    try {
+                        $getKategori = KategoriModel::findOrFail($row->id_kategori);
+
+                        if($getKategori){
+                            $data = $getKategori;
+                            $retKategori = KategoriModel::getParentName($data->parent).' - <b>'.$data->nama.'</b>';
+                            return $retKategori;
+                        }else{
+                            return '<label>-</label>';
+                        }
+                    } catch (Exception $e) {
+                        return '<label>-</label>';
+                    }
+
+                })
+                ->addColumn('foto', function($row){
+
+                    $img = '';
+
+                    if($row->photo_url == null || $row->photo_url == ""){
+                        $img = asset('assets').'/logo/noimage.png';
+                    }else{
+                        $img = asset('/').$row->photo_url;
+                    }
+
+                    $btn = '
+                        <center>
+
+                          <a href="'.$img.'" target="_blank"><img style="width:100px;max-height:100px;" alt="NONE" src="'.$img.'" /></a>
+
+                        </center>
+                    ';
+
+                    return $btn;
+                })
+                ->addColumn('jml_terjual', function($row) use($req){
+
+                    $getSatuan = SatuanModel::find($row->id_satuan);
+
+                    $jml_terjual = 0;
+
+                    $getBarangTerjual = DB::select(DB::raw("SELECT tb_det_transaksi.id_barang, SUBSTR(tb_transaksi.created_at, 1, 10) as `tgl_trx`, SUM((tb_det_transaksi.harga_satuan_barang * tb_det_transaksi.qty)) as `nominal`, SUM(tb_det_transaksi.qty) as `qty_terjual` FROM tb_transaksi LEFT JOIN tb_det_transaksi ON(tb_transaksi.id = tb_det_transaksi.id_transaksi) LEFT JOIN tb_barang ON(tb_det_transaksi.id_barang = tb_barang.id) WHERE tb_transaksi.status = 'PAID' AND tb_det_transaksi.id_barang = ".$row->id." AND SUBSTR(tb_transaksi.created_at, 1, 10) BETWEEN '".$req->periode_dari."' AND '".$req->periode_ke."' GROUP BY tb_det_transaksi.id_barang, tgl_trx
+                        "));
+
+                    $getBarangTerjual = json_decode(json_encode($getBarangTerjual), true);
+
+                    if(null !== $getBarangTerjual){
+                        foreach ($getBarangTerjual as $key => $value) {
+                            $jml_terjual += $value['qty_terjual'];
+                        }
+                    }
+
+                    return '<b><center>'.$jml_terjual.'</b> '.(null !== $getSatuan ? $getSatuan->nama : '').'</center>';
+                })
+                ->addColumn('nominal_terjual', function($row) use($req){
+
+                    $nominal_terjual = 0;
+
+                    $getBarangTerjual = DB::select(DB::raw("SELECT tb_det_transaksi.id_barang, SUBSTR(tb_transaksi.created_at, 1, 10) as `tgl_trx`, SUM((tb_det_transaksi.harga_satuan_barang * tb_det_transaksi.qty)) as `nominal`, SUM(tb_det_transaksi.qty) as `qty_terjual` FROM tb_transaksi LEFT JOIN tb_det_transaksi ON(tb_transaksi.id = tb_det_transaksi.id_transaksi) LEFT JOIN tb_barang ON(tb_det_transaksi.id_barang = tb_barang.id) WHERE tb_transaksi.status = 'PAID' AND tb_det_transaksi.id_barang = ".$row->id." AND SUBSTR(tb_transaksi.created_at, 1, 10) BETWEEN '".$req->periode_dari."' AND '".$req->periode_ke."' GROUP BY tb_det_transaksi.id_barang, tgl_trx
+                        "));
+
+                    $getBarangTerjual = json_decode(json_encode($getBarangTerjual), true);
+
+                    if(null !== $getBarangTerjual){
+                        foreach ($getBarangTerjual as $key => $value) {
+                            $nominal_terjual += $value['nominal'];
+                        }
+                    }
+
+                    return '<div style="text-align: right"><b>Rp. <label class="jml_terjual">'.number_format($nominal_terjual).'</label></b></div>';
+                })
+                ->rawColumns(['action', 'foto','kode_barang', 'id_kategori', 'jml_terjual', 'nominal_terjual'])
+                ->make(true);
+        }
+    }
+
 
 }

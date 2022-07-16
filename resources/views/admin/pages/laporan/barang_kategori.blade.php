@@ -116,84 +116,37 @@
               <br/>
 
               
-              <div id="div_single" hidden>
+              <div id="div_single">
                 <div class="card">
                   <div class="card-body">
-                    <div class="table-responsive" id="holder_table_single" hidden>
+                    <div class="table-responsive" id="holder_table_single">
                       <table id="data_table_single" style="width: 100%" class="table table-bordered table-striped align-middle h4">
                         <thead>
                           <tr>
                             <th width="1%"></th>
-                            <th width="10%"><center><label>Foto</label></center></th>
+                            <th width="10%"><center><label>Thumbnail</label></center></th>
                             <th width="15%"><label><b>Kode Barang</b></label></th>
-                            <th><label>Deskripsi</label></th>
-                            <th width="10%"><label>Kategori</label></th>
-                            <th class="text-end" width="10%"><label>Harga Perolehan</label></th>
-                            <th width="8%"><center><label>Tanggal Perolehan</label></center></th>
-                            <th width="5%"><center><label>Status</label></center></th>
+                            <th><label>Nama Barang</label></th>
+                            <th width="15%"><label>Kategori</label></th>
+                            <th class="text-center" width="8%"><label>Jumlah Terjual</label></th>
+                            <th class="text-end" width="15%"><label>Nominal Terjual</label></th>
                           </tr>
                         </thead>
                         <tbody>
                         </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="6"><center><b>Total</b></center></td>
+                            <td style="text-align: right;"><b id="total_nominal">Rp. 0</b></td>
+                          </tr>
+                        </tfoot>
                       </table>
                     </div>
-                    <div id="tree_single" hidden></div>
-                  </div>
-                </div>
-              </div>
-
-              <div id="div_all" hidden>
-                <div class="row">
-                  <div class="col-lg-4">
-                    
-                    <!-- BEGIN card -->
-                      <div class="card">
-                        <div class="card-body">
-
-                          <!-- html -->
-                          <div class="table-responsive">
-                            <table style="width: 100%" class="table table-bordered table-striped align-middle h4">
-                              <thead>
-                                <tr>
-                                  <th width="1%"><center><label>No.</label></center></th>
-                                  <th><center><label>Lokasi</label></center></th>
-                                  <th class="text-end"><label>Jumlah Barang</label></th>
-                                  <th class="text-end"><label>Nominal <label>(Rp)</label></label></th>
-                                </tr>
-                              </thead>
-                              <tbody id="body_result">
-                              </tbody>
-                              <tfoot>
-                                <th></th>
-                                <th><center><b>TOTAL</b></center></th>
-                                <th class="text-end"><b><label id="jumlah_barang">0</label></b></th>
-                                <th class="text-end"><b><label id="nominal_barang">0</label></b></th>
-                              </tfoot>
-                            </table>
-                          </div>
-
-                        </div>
-                      </div>
-                      <!-- END card -->
-
-                  </div>
-                  <div class="col-lg-8">
-                    <div class="card">
-                      <div class="card-body" id="holder_chart">
-                        <canvas id="chart_asset" width="100%"></canvas>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
 
           </div>
-
-          <div id="loading" hidden>
-            <center><i class="fas fa-circle-notch fa-spin text-primary" style="font-size: 20px"></i></center>
-            <center>Memuat..</center>
-          </div>
-
           
 
         </div>
@@ -208,67 +161,15 @@
 
 
 <div class="modal fade" id="modal_detail">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"> Detail Lokasi</h4>
-      </div>
-      <div class="modal-body">
-
-        <div class="row">
-          <div class="col-lg-12">
-            <h4><span class="badge bg-primary" id="lokasi_cek"></span></h4>            
-          </div>
-          <div class="col-lg-6" style="text-align: right;" hidden>
-            <h4><span class="badge bg-primary" id="kategori_cek"></span></h4>
-          </div>
-        </div>
-
-        <br/>
-
-        <div class="card">
-          <div class="card-body">
-            <div class="table-responsive">
-              <div id="holder_detail"></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">Tutup</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modal_detail_barang">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title"> List Barang</h4>
-        <h4 clas><span class="badge bg-primary" id="lokasi_barang">1231231</span></h4>
+        <h4 class="modal-title"> List Transaksi</h4>
+        <h4 clas><span class="badge bg-primary" id="dari_barang"></span></h4>
       </div>
       <div class="modal-body">
 
-        <div class="table-responsive">
-          <table id="data_table" style="width: 100%" class="table table-bordered table-striped align-middle h4">
-            <thead>
-              <tr>
-                <th width="1%"></th>
-                <th width="10%"><center><label>Foto</label></center></th>
-                <th width="15%"><label><b>Kode Barang</b></label></th>
-                <th><label>Deskripsi</label></th>
-                <th width="10%"><label>Kategori</label></th>
-                <th class="text-end" width="10%"><label>Harga Perolehan</label></th>
-                <th width="8%"><center><label>Tanggal Perolehan</label></center></th>
-                <th width="5%"><center><label>Status</label></center></th>
-              </tr>
-            </thead>
-            <tbody id="body_barang">
-            </tbody>
-          </table>
-        </div>
+        <div id="holder_detail"></div>
 
       </div>
       <div class="modal-footer">
@@ -278,44 +179,6 @@
   </div>
 </div>
 
-
-<div class="modal fade" id="modal_pilih_lokasi">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Pilih Lokasi</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-      </div>
-      <div class="modal-body">
-        
-        <div class="row">
-          
-          <div class="col-lg-8">
-            <div id="dataTree_lokasi" class="dataTree_lokasi"></div>
-          </div>
-
-          <div class="col-lg-4">
-            <div class="card">
-              <div class="card-body">
-                <label>Selected Node</label><br/>
-                <label id="selected_node" style="font-weight: bold"></label> <br/><br/>
-                <label>Node Parent</label><br/>
-                <label id="selected_parent" style="font-weight: bold"></label>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <a href="javascript:;" class="btn btn-white" id="semua_lokasi" hidden>Semua Lokasi</a>
-        <a href="javascript:;" class="btn btn-outline-primary" id="pusat_lokasi" {{ Auth()->user()->id_requester == 0 ? "" : "hidden" }}>Pusat</a>
-        <a href="javascript:;" class="btn btn-primary" id="ya_lokasi">Pilih</a>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <div class="modal fade" id="modal_pilih_kategori_cari">
@@ -384,168 +247,59 @@
     }
 
     function callResult(){
-      $('#content_data').prop('hidden', true);
-      $('#loading').prop('hidden', false);
-      let lokasi = $('#lokasiCari').val();
-      kategori = $('#kategoriCari').val();
+      
+      $('#data_table_single').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        bDestroy: true,
+        ajax: {
+            'type': 'POST',
+            'url': "{{ route('get-laporan-barang') }}",
+            'data': {
+               periode_dari: $('#periodeDari').val(),
+               periode_ke: $('#periodeKe').val(),
+               kategori: $('#kategoriCari').val()
+            },
+        },
+        "fnInitComplete": function(oSettings, json) {
 
-      let link = '{{ url("laporan/barang/kategori") }}/'+kategori+'/'+lokasi;
+          let tot = 0;
 
-      if(lokasi == 'all'){
+          $(document).find('.jml_terjual').each(function(){
 
-        $('#div_all').attr('hidden', false);
-        $('#div_single').attr('hidden', true);
+            let nom = $(this).text().replace(",", "");
+            let temp = parseFloat(tot) + parseFloat(nom);
 
-        $('#body_result').html('');
-        $('#jumlah_barang').text('0');
-        $('#nominal_barang').text('0');
-
-        $("#chart_asset").remove();
-
-        $('#holder_chart').append('<canvas id="chart_asset" width="100%"></canvas>');
-
-        const ctx = document.getElementById('chart_asset').getContext('2d');
-
-        $.get(link, function(res){
-
-          let parse = JSON.parse(res);
-          let jml = 0;
-          let nom = 0;
-
-          var labelArray = [];
-          var dataArray = [];
-
-          $.each(parse, function(i, e){
-
-            let str = '<tr>'+
-                        '<td><center><label>'+(i + 1)+'.</label></center></td>'+
-                        '<td><center><label><a href="javascript:void(0)" class="text-primary btn_detail" data-text="'+e.text+'" data-lokasi="'+e.id+'" data-kategori="'+kategori+'" data-kategori-text="'+$('#kategoriCari option:selected').text()+'">'+e.text+'</a></label></center></td>'+
-                        '<td class="text-end"><label>'+numberWithCommas(parseInt(e.count))+'</label></td>'+
-                        '<td class="text-end"><label>'+numberWithCommas(parseInt(e.nominal))+'</label></td>'+
-                      '</tr>';
-
-            $('#body_result').append(str);
-
-            jml += parseInt(e.count);
-            nom += parseInt(e.nominal);
-
-            labelArray.push(e.text);
-            dataArray.push(e.count);
+            tot = temp;
 
           });
+          
+          $('#total_nominal').text("Rp. " + tot.toLocaleString());
 
-          const chart_asset = new Chart(ctx, {
-              type: 'bar',
-              data: {
-                  labels: labelArray,
-                  datasets: [{
-                      label: 'Jumlah Barang',
-                      data: dataArray,
-                      backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(255, 206, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(153, 102, 255, 0.2)',
-                          'rgba(255, 159, 64, 0.2)'
-                      ],
-                      borderColor: [
-                          'rgba(255, 99, 132, 1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)',
-                          'rgba(153, 102, 255, 1)',
-                          'rgba(255, 159, 64, 1)'
-                      ],
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
-              }
-          });
-
-          $('#jumlah_barang').text(numberWithCommas(jml));
-          $('#nominal_barang').text(numberWithCommas(nom));
-          $('#content_data').prop('hidden', false);
-          $('#loading').prop('hidden', true);
-
-        });
-
-      }else if(lokasi == 0){
-
-        $('#div_all').attr('hidden', true);
-        $('#div_single').attr('hidden', false);
-        $('#loading').prop('hidden', true);
-        $('#content_data').prop('hidden', false);
-
-        $('#holder_table_single').attr('hidden', false);
-        $('#tree_single').attr('hidden', true);
-
-        $('#data_table_single').DataTable({
-          responsive: true,
-          processing: true,
-          serverSide: true,
-          bDestroy: true,
-          ajax: {
-              'type': 'POST',
-              'url': "{{ '123' }}",
-              'data': {
-                 kategori: kategori,
-                 lokasi: lokasi,
-              },
-          },
-          columns: [
-              {data: 'id', name: 'id'},
-              {data: 'foto', name: 'foto', orderable: false, searchable: false},
-              {data: 'kode_barang', name: 'kode_barang'},
-              {data: 'deskripsi', name: 'deskripsi'},
-              {data: 'id_kategori', name: 'id_kategori', orderable: false, searchable: false},
-              {data: 'harga_perolehan', name: 'harga_perolehan'},
-              {data: 'tanggal_perolehan', name: 'tanggal_perolehan'},
-              {data: 'status', name: 'status'},
-          ],
-          order: ['0', 'desc'],
-          columnDefs: [
-            { targets: [0], visible: false},        
-          ],
-        });
-
-      }else{
-
-        $('#div_all').attr('hidden', true);
-        $('#div_single').attr('hidden', false);
-        $('#loading').prop('hidden', true);
-        $('#content_data').prop('hidden', false);
-
-        $('#holder_table_single').attr('hidden', true);
-        $('#tree_single').attr('hidden', false);
-
-        $('#tree_single')
-        .on("changed.jstree", function (e, data) {
-          if(data.selected.length) {
-
-          }
-        })
-        .jstree({
-          'core' : {
-            'multiple' : false,
-            'data' : {
-                "url" : link,
-                "dataType" : "json" 
-            }
-          }
-        });
-
-        $('#tree_single').jstree(true).settings.core.data.url = link;
-        $('#tree_single').jstree(true).refresh();
-
-
-      }
+        },
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'foto', name: 'foto', orderable: false, searchable: false},
+            {data: 'kode_barang', name: 'kode_barang'},
+            {data: 'nama_barang', name: 'nama_barang'},
+            {data: 'id_kategori', name: 'id_kategori', orderable: false, searchable: false},
+            {data: 'jml_terjual', name: 'jml_terjual', orderable: false, searchable: false},
+            {data: 'nominal_terjual', name: 'nominal_terjual', orderable: false, searchable: false},
+        ],
+        order: ['0', 'desc'],
+        columnDefs: [
+          { targets: [0], visible: false},        
+        ],
+        dom: 'lBfrtip',
+        buttons: [
+          { extend: 'copy', className: 'btn-sm', footer: true },
+          { extend: 'csv', className: 'btn-sm', footer: true },
+          { extend: 'excel', className: 'btn-sm', footer: true },
+          { extend: 'pdf', className: 'btn-sm', footer: true },
+          { extend: 'print', className: 'btn-sm', footer: true }
+        ],
+      });
 
     }
 
@@ -608,120 +362,40 @@
         $('#modal_pilih_kategori_cari').modal('hide');
       });
 
-      $(document).on('click', '.detail_barang', function(){
-
-        let lokasi = $(this).attr('id-lokasi');
-        let kategori = $(this).attr('id-kategori');
-        let txt = $(this).attr('text-lokasi');
-
-        $('#lokasi_barang').text(txt);
-
-        $('#data_table').DataTable({
-          responsive: true,
-          processing: true,
-          serverSide: true,
-          bDestroy: true,
-          ajax: {
-              'type': 'POST',
-              'url': "{{ '123' }}",
-              'data': {
-                 kategori: kategori,
-                 lokasi: lokasi,
-              },
-          },
-          columns: [
-              {data: 'id', name: 'id'},
-              {data: 'foto', name: 'foto', orderable: false, searchable: false},
-              {data: 'kode_barang', name: 'kode_barang'},
-              {data: 'deskripsi', name: 'deskripsi'},
-              {data: 'id_kategori', name: 'id_kategori', orderable: false, searchable: false},
-              {data: 'harga_perolehan', name: 'harga_perolehan'},
-              {data: 'tanggal_perolehan', name: 'tanggal_perolehan'},
-              {data: 'status', name: 'status'},
-          ],
-          order: ['0', 'desc'],
-          columnDefs: [
-            { targets: [0], visible: false},        
-          ],
-        });
-
-        $('#modal_detail_barang').modal('show');
-
-      });
-
       $(document).on('click', '.btn_detail', function(){
 
-        let lokasi = $(this).attr('data-lokasi');
-        let kategori = $(this).attr('data-kategori');
-        let kategori_text = $(this).attr('data-kategori-text');
-        let text = $(this).attr('data-text');
+       let id = $(this).attr('data-id');
+       let nama = $(this).attr('data-nama');
 
-        if(lokasi == 0){
+       $('#dari_barang').text(nama);
 
-          $('#lokasi_barang').text(text);
+       $('body').addClass('loading');
 
-          $('#data_table').DataTable({
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            bDestroy: true,
-            ajax: {
-                'type': 'POST',
-                'url': "{{ '123' }}",
-                'data': {
-                   kategori: kategori,
-                   lokasi: lokasi,
-                },
-            },
-            columns: [
-                {data: 'id', name: 'id'},
-                {data: 'foto', name: 'foto', orderable: false, searchable: false},
-                {data: 'kode_barang', name: 'kode_barang'},
-                {data: 'deskripsi', name: 'deskripsi'},
-                {data: 'id_kategori', name: 'id_kategori', orderable: false, searchable: false},
-                {data: 'harga_perolehan', name: 'harga_perolehan'},
-                {data: 'tanggal_perolehan', name: 'tanggal_perolehan'},
-                {data: 'status', name: 'status'},
+       let link = '{{ url("laporan/get_list_transaksi") }}';
+       let data = {
+        id: id,
+        periode_dari: $('#periodeDari').val(),
+        periode_ke: $('#periodeKe').val(),
+        kategori: $('#kategoriCari').val()
+       };
+
+       $.post(link, data, function(res){
+        $('body').removeClass('loading');
+        $('#holder_detail').html(res);
+        $('#holder_detail').find('#det_table_trx').DataTable(
+          {
+            dom: 'lBfrtip',
+            buttons: [
+              { extend: 'copy', className: 'btn-sm', footer: true },
+              { extend: 'csv', className: 'btn-sm', footer: true },
+              { extend: 'excel', className: 'btn-sm', footer: true },
+              { extend: 'pdf', className: 'btn-sm', footer: true },
+              { extend: 'print', className: 'btn-sm', footer: true }
             ],
-            order: ['0', 'desc'],
-            columnDefs: [
-              { targets: [0], visible: false},        
-            ],
-          });
-
-          $('#modal_detail_barang').modal('show');
-
-        }else{
-
-          $('#lokasi_cek').text(text);
-          $('#kategori_cek').text((kategori_text == '[ Semua ]' ? "Semua" : kategori_text));
-
-          // let holder = $('#holder_detail');
-
-          let link = "{{ url('laporan/barang/kategori_sublokasi') }}/"+lokasi+'/'+kategori;
-
-          $('#holder_detail')
-            .on("changed.jstree", function (e, data) {
-              if(data.selected.length) {
-
-              }
-            })
-            .jstree({
-              'core' : {
-                'multiple' : false,
-                'data' : {
-                    "url" : link,
-                    "dataType" : "json" 
-                }
-              }
-            });
-
-            $('#holder_detail').jstree(true).settings.core.data.url = link;
-            $('#holder_detail').jstree(true).refresh();
-
-          $('#modal_detail').modal('show');
-
-        }
+          }
+        );
+        $('#modal_detail').modal('show');
+       });
 
       });
 

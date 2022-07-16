@@ -52,7 +52,7 @@
       </div>
 
 
-      <div class="menu-item has-sub {{ Request::is('transaksi/*') || Request::is('transaksi') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Pemilik' ? 'hidden' : '') ?>>
+      <div class="menu-item has-sub {{ Request::is('transaksi/*') || Request::is('transaksi') ? 'active' : '' }}" >
         <a href="javascript:;" class="menu-link">
           <div class="menu-icon">
             <i class="fa fa-laptop"></i>
@@ -62,15 +62,21 @@
         </a>
         <div class="menu-submenu" style="display: {{ Request::is('transaksi/*') || Request::is('transaksi') ? 'block' : 'none' }};">
 
-          <div class="menu-item {{ Request::is('transaksi') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Supplier' ? 'hidden' : '') ?>>
+          <div class="menu-item {{ Request::is('transaksi') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Supplier' || Auth()->user()->role == 'Pemilik' ? 'hidden' : '') ?>>
             <a href="{{ route('transaksi') }}" class="menu-link">
               <div class="menu-text">Transaksi Pembelian</div>
             </a>
           </div>
 
-          <div class="menu-item {{ Request::is('transaksi/po') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Pembeli' ? 'hidden' : '') ?>>
+          <div class="menu-item {{ Request::is('transaksi/po') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Pembeli' || Auth()->user()->role == 'Pemilik' ? 'hidden' : '') ?>>
             <a href="{{ route('transaksi-po') }}" class="menu-link">
               <div class="menu-text">Pemesanan Barang (PO)</div>
+            </a>
+          </div>
+
+          <div class="menu-item {{ Request::is('transaksi/stok_opname') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Admin' || Auth()->user()->role == 'Pemilik' ? '' : 'hidden') ?>>
+            <a href="{{ route('stok-opname') }}" class="menu-link">
+              <div class="menu-text">Stock Opname</div>
             </a>
           </div>
 
@@ -93,13 +99,6 @@
               <div class="menu-text">Penjualan Barang</div>
             </a>
           </div>
-
-          <div class="menu-item {{ Request::is('laporan/stock_opname') ? 'active' : '' }}">
-            <a href="{{ route('laporan-barang') }}" class="menu-link">
-              <div class="menu-text">Stock Opname</div>
-            </a>
-          </div>
-        
 
         </div>
       </div>

@@ -17,6 +17,17 @@ Route::get('/', 'AuthController@showFormLogin');
 Route::get('login', 'AuthController@showFormLogin')->name('login');
 Route::post('login', 'AuthController@login')->name('login');
 
+Route::get('register', 'AuthController@showRegister');
+Route::post('register', 'AuthController@register')->name('register');
+
+Route::get('lupa_password', 'AuthController@showLupaPassword');
+Route::post('lupa_password', 'AuthController@lupa_password')->name('lupa_password');
+Route::get('lupa_password/verif', 'AuthController@verif_kode')->name('verif');
+Route::post('lupa_password/kode_verif', 'AuthController@kode_verif')->name('kode_verif');
+
+Route::get('lupa_password/verif_final', 'AuthController@verif_final')->name('verif_final');
+Route::post('lupa_password/verif_final', 'AuthController@verif_final_execute');
+
 Route::group(['middleware' => 'auth'], function(){
 	Route::get('logout', 'AuthController@logout')->name('logout');
 
@@ -130,69 +141,6 @@ Route::group(['middleware' => 'auth'], function(){
 
 		// END ADM PO
 
-		// ADM REQUEST
-
-		Route::get('administrasi/request_barang', 'AdmRequestBarangController@index')->name('adm-request-barang');
-		Route::get('administrasi/request_barang/detail/{id}', 'AdmRequestBarangController@detail');
-		Route::get('administrasi/request_barang/buat_disposisi/{id}', 'AdmRequestBarangController@buat_disposisi');
-		Route::get('administrasi/request_barang/edit_disposisi/{id}', 'AdmRequestBarangController@edit_disposisi');
-		Route::post('administrasi/request_barang/simpan', 'AdmRequestBarangController@store')->name('simpan-request-barang');
-		Route::post('administrasi/request_barang/get_data', 'AdmRequestBarangController@get_data')->name('get-data-request-barang');
-		Route::get('administrasi/request_barang/edit/{id}', 'AdmRequestBarangController@edit');
-		Route::post('administrasi/request_barang/update', 'AdmRequestBarangController@update')->name('update-request-barang');
-		Route::get('administrasi/request_barang/detail_disposisi/{id}', 'AdmRequestBarangController@detail_disposisi');
-		Route::post('administrasi/request_barang/simpan_disposisi', 'AdmRequestBarangController@simpan_disposisi')->name('simpan-buat-disposisi');
-		Route::post('administrasi/request_barang/simpan_update_disposisi', 'AdmRequestBarangController@simpan_update_disposisi')->name('simpan-edit-disposisi');
-		Route::post('administrasi/request_barang/simpan_balasan_disposisi', 'AdmRequestBarangController@simpan_balasan_disposisi')->name('simpan-balasan-disposisi');
-		Route::get('administrasi/request_barang/delete/{id}', 'AdmRequestBarangController@delete');
-		Route::get('administrasi/request_barang/disposisi/delete/{id}', 'AdmRequestBarangController@disposisi_delete');
-
-		Route::get('administrasi/request_barang/disposisi/approval/{id}/{md5}/{kondisi}', 'AdmRequestBarangController@disposisi_approval');
-
-		Route::post('administrasi/request_barang/simpan_balasan_disposisi_forum', 'AdmRequestBarangController@simpan_balasan_disposisi_forum')->name('simpan-balasan-disposisi-forum');
-
-		// END ADM REQUEST
-
-		// ADM MUTASI
-
-		Route::get('administrasi/mutasi_barang', 'AdmMutasiBarangController@index')->name('adm-mutasi-barang');
-		Route::post('administrasi/mutasi_barang/simpan', 'AdmMutasiBarangController@store')->name('simpan-mutasi');
-		Route::post('administrasi/mutasi_barang/update', 'AdmMutasiBarangController@update')->name('update-mutasi');
-		Route::post('administrasi/mutasi_barang/get_data', 'AdmMutasiBarangController@get_data')->name('get-data-mutasi');
-		Route::get('administrasi/mutasi_barang/detail/{id}', 'AdmMutasiBarangController@detail');
-		Route::get('administrasi/mutasi_barang/edit/{id}', 'AdmMutasiBarangController@edit');
-		Route::get('administrasi/mutasi_barang/delete/{id}', 'AdmMutasiBarangController@delete');
-		Route::post('administrasi/mutasi_barang/terima_mutasi', 'AdmMutasiBarangController@acc_mutasi')->name('terima-data-mutasi');
-
-		// END ADM MUTASI
-
-		// ADM MAINTENANCE
-
-		Route::get('administrasi/maintenance_barang', 'AdmMaintenanceController@index')->name('adm-maintenance-barang');
-		Route::post('administrasi/maintenance_barang/simpan', 'AdmMaintenanceController@store')->name('simpan-maintenance');
-		Route::post('administrasi/maintenance_barang/update', 'AdmMaintenanceController@update')->name('update-maintenance');
-		Route::post('administrasi/maintenance_barang/get_data', 'AdmMaintenanceController@get_data')->name('get-data-maintenance');
-		Route::get('administrasi/maintenance_barang/detail/{id}', 'AdmMaintenanceController@detail');
-		Route::get('administrasi/maintenance_barang/edit/{id}', 'AdmMaintenanceController@edit');
-		Route::get('administrasi/maintenance_barang/delete/{id}', 'AdmMaintenanceController@delete');
-
-		// END ADM MAINTENANCE
-
-		// ADM PELAPORAN
-
-		Route::get('administrasi/pelaporan_barang', 'AdmPelaporanController@index')->name('adm-pelaporan-barang');
-		Route::post('administrasi/pelaporan_barang/simpan', 'AdmPelaporanController@store')->name('simpan-laporan');
-		Route::post('administrasi/pelaporan_barang/update', 'AdmPelaporanController@update')->name('update-laporan');
-		Route::post('administrasi/pelaporan_barang/get_data', 'AdmPelaporanController@get_data')->name('get-data-pelaporan');
-		Route::get('administrasi/pelaporan_barang/proses/{id}', 'AdmPelaporanController@proses');
-		Route::get('administrasi/pelaporan_barang/detail/{id}', 'AdmPelaporanController@detail');
-		Route::get('administrasi/pelaporan_barang/jawab/{id}', 'AdmPelaporanController@jawab');
-		Route::get('administrasi/pelaporan_barang/edit/{id}', 'AdmPelaporanController@edit');
-		Route::get('administrasi/pelaporan_barang/delete/{id}', 'AdmPelaporanController@delete');
-		Route::post('administrasi/pelaporan_barang/simpan_jawaban_laporan', 'AdmPelaporanController@store_jawaban')->name('simpan-jawaban-laporan');
-
-		// END ADM PELAPORAN
-
 		// SYSTEM
 
 		Route::get('system/users', 'UserController@index')->name('users');
@@ -213,10 +161,21 @@ Route::group(['middleware' => 'auth'], function(){
 
 		// END SYSTEM
 
+		// STOK OPNAME
+
+		Route::get('transaksi/stok_opname', 'StokOpNameController@index')->name('stok-opname');
+		Route::post('transaksi/stok_opname/store', 'StokOpNameController@store')->name('simpan-stokopname');
+		Route::get('transaksi/stok_opname/delete/{id}', 'StokOpNameController@delete');
+		Route::get('transaksi/stok_opname/get_detail/{id}', 'StokOpNameController@detail');
+
+		// END STOK OPNAME
+
 		// LAPORAN
 
 		Route::get('laporan/barang', 'LaporanController@index')->name('laporan-barang');
+		Route::post('laporan/get_data_penjualan', 'LaporanController@get_penjualan')->name('get-laporan-barang');
 		Route::get('laporan/barang/kategori/{id}', 'LaporanController@get_laporan_kategori_barang');
+		Route::post('laporan/get_list_transaksi', 'LaporanController@get_list_transaksi');
 
 		// END OF LAPORAN
 
@@ -224,14 +183,10 @@ Route::group(['middleware' => 'auth'], function(){
 	// END OF ADMIN ACCESS
 
 	Route::get('landing_admin', 'AdminController@index')->name('landing-admin');
+	Route::get('dashboard/get_data/{id1}/{id2}', 'AdminController@get_data');
 
 	// DASHBOARD
 
-	Route::get('dashboard/get_data_selected/{id}', 'AdminController@load_selected_lokasi');
-	Route::get('dashboard/administration_summary', 'AdminController@load_adm')->name('load-adm-summary');
-	Route::get('dashboard/master_summary', 'AdminController@load_master')->name('load-master-summary');
-	Route::get('dashboard/chart_asset', 'AdminController@load_chart_asset')->name('load-chart-asset');
-	Route::get('dashboard/pin_requester', 'AdminController@load_pin_requester')->name('load-pin');
 
 	// END OF DASHBOARD
 });

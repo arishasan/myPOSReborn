@@ -26,7 +26,7 @@
       <div class="row">
         <div class="col-lg-4">
           <label for="">Bulan</label>
-          <select name="" id="" class="form-control">
+          <select name="" id="bulanNya" class="form-control">
             <option value="All">[ Semua ]</option>
             <option value="01" <?= date('m') == '01' ? 'selected' : '' ?>>Januari</option>
             <option value="02" <?= date('m') == '02' ? 'selected' : '' ?>>Februari</option>
@@ -44,7 +44,7 @@
         </div>
         <div class="col-lg-4">
           <label for="">Tahun</label>
-          <select name="" id="" class="form-control">
+          <select name="" id="tahunNya" class="form-control">
             <option>{{ date('Y', strtotime('+2 years')) }}</option>
             <option>{{ date('Y', strtotime('+1 year')) }}</option>
             <option selected>{{ date('Y') }}</option>
@@ -54,7 +54,7 @@
         </div>
         <div class="col-lg" style="text-align: right;">
           <label for="">&nbsp;</label><br/>
-          <button class="btn btn-outline-primary form-control"><i class="fa fa-search"></i> Proses</button>
+          <button class="btn btn-outline-primary form-control" id="btn_cari"><i class="fa fa-search"></i> Proses</button>
         </div>
       </div>
 
@@ -89,7 +89,7 @@
                   <!-- END title -->
                   <!-- BEGIN total-sales -->
                   <div class="d-flex mb-1">
-                    <h2 class="mb-0">Rp. <span data-animation="number" id="summary_total" data-value="{{ $total_assets }}">0.00</span></h2>
+                    <h2 class="mb-0">Rp. <span  id="tot_trx" data-value="5">0.00</span></h2>
                     <div class="ms-auto mt-n1 mb-n1"><div id="total-sales-sparkline"></div></div>
                   </div>
                   <!-- END total-sales -->
@@ -103,30 +103,44 @@
                   <div class="row text-truncate">
                     <!-- BEGIN col-6 -->
                     <div class="col">
-                      <div class="fs-12px text-gray-500"><small>Jml. Trx (PAID)</small></div>
+                      <div class="fs-12px text-primary-500"><small>Nominal. Trx (PAID)</small></div>
                       <div class="fs-12px mb-5px fw-bold">
-                        Rp. <span data-animation="number" id="summary_perbaikan" data-value="100000000"></span>
+                        Rp. <span  id="tot_paid" data-value="100000000"></span>
                       </div>
                       <!-- <div class="progress h-5px rounded-3 bg-gray-900 mb-5px">
                         <div class="progress-bar progress-bar-striped rounded-right bg-teal" data-animation="width" data-value="55%" style="width: 0%"></div>
                       </div> -->
                     </div>
                     <!-- END col-6 -->
-                    <!-- BEGIN col-6 -->
+                    <!-- END col-6 -->
                     <div class="col">
-                      <div class="fs-12px text-gray-500"><small>Jml. Trx (PENDING)</small></div>
+                      <div class="fs-12px text-danger-500"><small>Nominal. Trx (VOID)</small></div>
                       <div class="fs-12px mb-5px fw-bold">
-                        Rp. <span data-animation="number" id="summary_perbaikan" data-value="100000000"></span>
+                        Rp. <span  id="tot_void" data-value="100000000"></span>
                       </div>
                       <!-- <div class="progress h-5px rounded-3 bg-gray-900 mb-5px">
                         <div class="progress-bar progress-bar-striped rounded-right" data-animation="width" data-value="55%" style="width: 0%"></div>
                       </div> -->
                     </div>
+                  </div>
+                  <!-- BEGIN row -->
+                  <div class="row text-truncate">
+                    <!-- BEGIN col-6 -->
+                    <div class="col">
+                      <div class="fs-12px text-warning-500"><small>Nominal. Trx (PENDING)</small></div>
+                      <div class="fs-12px mb-5px fw-bold">
+                        Rp. <span  id="tot_pending" data-value="100000000"></span>
+                      </div>
+                      <!-- <div class="progress h-5px rounded-3 bg-gray-900 mb-5px">
+                        <div class="progress-bar progress-bar-striped rounded-right bg-teal" data-animation="width" data-value="55%" style="width: 0%"></div>
+                      </div> -->
+                    </div>
+                    <!-- END col-6 -->
                     <!-- END col-6 -->
                     <div class="col">
-                      <div class="fs-12px text-gray-500"><small>Jml. Trx (VOID)</small></div>
+                      <div class="fs-12px text-danger-500"><small>Nominal. Trx (CANCEL)</small></div>
                       <div class="fs-12px mb-5px fw-bold">
-                        Rp. <span data-animation="number" id="summary_perbaikan" data-value="100000000"></span>
+                        Rp. <span  id="tot_cancel" data-value="100000000"></span>
                       </div>
                       <!-- <div class="progress h-5px rounded-3 bg-gray-900 mb-5px">
                         <div class="progress-bar progress-bar-striped rounded-right" data-animation="width" data-value="55%" style="width: 0%"></div>
@@ -162,8 +176,8 @@
                 <div class="card-body">
                   <!-- BEGIN title -->
                   <div class="mb-3 text-gray-500">
-                    <b class="mb-3">TRANSAKSI BULAN INI</b> 
-                    <span class="ms-2"><i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="TRANSAKSI BULAN INI" data-bs-placement="top" data-bs-content="Transaksi pada bulan ini." data-original-title="" title=""></i></span>
+                    <b class="mb-3">RINGKASAN TRANSAKSI</b> 
+                    <span class="ms-2"><i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="RINGKASAN TRANSAKSI" data-bs-placement="top" data-bs-content="Ringkasan transaksi." data-original-title="" title=""></i></span>
                   </div>
                   <!-- END title -->
                   <!-- BEGIN conversion-rate -->
@@ -187,7 +201,7 @@
                     </div>
                     <div class="d-flex align-items-center ms-auto">
                       <!-- <div class="text-gray-500 fs-11px"><i class="fa fa-caret-up"></i> <span data-animation="number" data-value="262">0</span>%</div> -->
-                      <div class="w-50px text-end ps-2 fw-bold"><span id="adm_request" data-value="5">0</span></div>
+                      <div class="w-50px text-end ps-2 fw-bold"><span id="jml_trx_paid" data-value="5">0</span></div>
                     </div>
                   </div>
                   <!-- END info-row -->
@@ -195,11 +209,11 @@
                   <div class="d-flex">
                     <div class="d-flex align-items-center">
                       <i class="fa fa-circle text-warning fs-8px me-2"></i>
-                      Jml. Transaksi (PENDING)
+                      Jml. Transaksi (PENDING/ORDER)
                     </div>
                     <div class="d-flex align-items-center ms-auto">
                       <!-- <div class="text-gray-500 fs-11px"><i class="fa fa-caret-up"></i> <span data-value="11">0</span>%</div> -->
-                      <div class="w-50px text-end ps-2 fw-bold"><span id="adm_po" data-value="3">0</span></div>
+                      <div class="w-50px text-end ps-2 fw-bold"><span id="jml_trx_pending" data-value="3">0</span></div>
                     </div>
                   </div>
                   <!-- END info-row -->
@@ -207,14 +221,25 @@
                   <div class="d-flex">
                     <div class="d-flex align-items-center">
                       <i class="fa fa-circle text-lime fs-8px me-2"></i>
-                      Jml. Transaksi (VOID/BATAL)
+                      Jml. Transaksi (VOID)
                     </div>
                     <div class="d-flex align-items-center ms-auto">
                       <!-- <div class="text-gray-500 fs-11px"><i class="fa fa-caret-up"></i> <span data-value="57">0</span>%</div> -->
-                      <div class="w-50px text-end ps-2 fw-bold"><span id="adm_mutasi" data-value="1">0</span></div>
+                      <div class="w-50px text-end ps-2 fw-bold"><span id="jml_trx_void" data-value="1">0</span></div>
                     </div>
                   </div>
                   <!-- END info-row -->
+
+                  <div class="d-flex">
+                    <div class="d-flex align-items-center">
+                      <i class="fa fa-circle text-lime fs-8px me-2"></i>
+                      Jml. Transaksi (CANCEL)
+                    </div>
+                    <div class="d-flex align-items-center ms-auto">
+                      <!-- <div class="text-gray-500 fs-11px"><i class="fa fa-caret-up"></i> <span data-value="57">0</span>%</div> -->
+                      <div class="w-50px text-end ps-2 fw-bold"><span id="jml_trx_cancel" data-value="1">0</span></div>
+                    </div>
+                  </div>
 
                   <!-- BEGIN info-row -->
                   <div class="d-flex">
@@ -224,7 +249,7 @@
                     </div>
                     <div class="d-flex align-items-center ms-auto">
                       <!-- <div class="text-gray-500 fs-11px"><i class="fa fa-caret-up"></i> <span data-value="57">0</span>%</div> -->
-                      <div class="w-50px text-end ps-2 fw-bold"><span id="adm_maintenance" data-value="1">0</span></div>
+                      <div class="w-50px text-end ps-2 fw-bold"><span id="jml_trx_po" data-value="1">0</span></div>
                     </div>
                   </div>
                   <!-- END info-row -->
@@ -268,7 +293,7 @@
                       Jml. Supplier
                     </div>
                     <div class="d-flex align-items-center ms-auto">
-                      <div class="w-50px text-end ps-2 fw-bold"><span id="master_lokasi" data-value="200">0</span></div>
+                      <div class="w-50px text-end ps-2 fw-bold"><span id="master_lokasi" data-value="200">{{ number_format($count_supplier) }}</span></div>
                     </div>
                   </div>
                   <!-- END info-row -->
@@ -279,7 +304,7 @@
                       Jml. User Supplier
                     </div>
                     <div class="d-flex align-items-center ms-auto">
-                      <div class="w-50px text-end ps-2 fw-bold"><span id="master_requester" data-value="100">0</span></div>
+                      <div class="w-50px text-end ps-2 fw-bold"><span id="master_requester" data-value="100">{{ number_format($count_user_supplier) }}</span></div>
                     </div>
                   </div>
                   <!-- END info-row -->
@@ -290,7 +315,7 @@
                       Jml. User Pembeli
                     </div>
                     <div class="d-flex align-items-center ms-auto">
-                      <div class="w-50px text-end ps-2 fw-bold"><span id="master_vendor" data-value="50">0</span></div>
+                      <div class="w-50px text-end ps-2 fw-bold"><span id="master_vendor" data-value="50">{{ number_format($count_user_pembeli) }}</span></div>
                     </div>
                   </div>
                   <!-- END info-row -->
@@ -301,7 +326,7 @@
                       Jml. Barang
                     </div>
                     <div class="d-flex align-items-center ms-auto">
-                      <div class="w-50px text-end ps-2 fw-bold"><span id="master_kategori" data-value="200">0</span></div>
+                      <div class="w-50px text-end ps-2 fw-bold"><span id="master_kategori" data-value="200">{{ number_format($count_barang) }}</span></div>
                     </div>
                   </div>
                   <!-- END info-row -->
@@ -325,24 +350,12 @@
         <!-- BEGIN col-8 -->
         <div class="col-xl-8 col-lg-6">
           <!-- BEGIN card -->
-          <div class="card border-0 mb-3" style="height: 458px">
+          <div class="card border-0 mb-3" >
             <div class="card-body">
               <div class="mb-3 text-gray-500 "><b>CHART PENDAPATAN/TRANSAKSI</b> <span class="ms-2"><i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="CHART PENDAPATAN/TRANSAKSI" data-bs-content="Melihat jumlah pendapatan/transaksi yang terjadi pada setiap hari/bulan nya di bulan/tahun tertentu." data-original-title="" title=""></i></span></div>
-              <div class="row">
-                <div class="col-xl-4 col-4">
-                  <h3 class="mb-1"><span data-animation="number" data-value="{{ $asset_baru_bulan_ini }}">0</span></h3>
-                  <div>Transaksi Baru</div>
-                  <div class="text-gray-500 fs-11px text-truncate">Bulan Ini <b>({{ date('M') }})</b></div>
-                </div>
-                <div class="col-xl-4 col-4">
-                  <h3 class="mb-1"><span data-animation="number" data-value="{{ $asset_baru_bulan_kemarin }}">0</span></h3>
-                  <div>Transaksi Baru</div>
-                  <div class="text-gray-500 fs-11px text-truncate">Bulan Lalu <b>({{ date('M', strtotime('-1 month')) }})</b></div>
-                </div>
-              </div>
             </div>
             <div class="card-body">
-              <canvas id="chart_asset" width="100%" class="h-250px"></canvas>
+              <canvas id="chart_nya" width="100%" class="h-450px"></canvas>
             </div>
           </div>
           <!-- END card -->
@@ -355,12 +368,16 @@
             <!-- BEGIN widget-input-container -->
             <div class="widget-input-container p-3">
 
-              <div class="text-gray-500 "><b>5 Transaksi Terakhir</b> <span class="ms-2"><i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="LOKASI MEMBER/CUSTOMER" data-bs-placement="top" data-bs-content="Melihat keseluruhan lokasi customer dalam Google Maps." data-original-title="" title=""></i></span></div>
+              <div class="text-gray-500 "><b>5 Transaksi Terakhir</b> <span class="ms-2"><i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="5 Transaksi Terakhir" data-bs-placement="top" data-bs-content="5 Transaksi Terakhir" data-original-title="" title=""></i></span></div>
 
             </div>
             <!-- END widget-input-container -->
             <!-- BEGIN widget-map-body -->
             <div class="widget-map-body">
+
+              <div id="holder_trx_terakhir" >
+
+              </div>
 
             </div>
             <!-- END widget-map-body -->
@@ -508,57 +525,97 @@
         return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    function loadAdm(){
+    function callData(){
 
-      let link = '{{ route("load-adm-summary") }}';
-      $.get(link, function(res){
+      $('body').addClass('loading');
 
-        let parse = JSON.parse(res);
-        $('#adm_request').html(numberWithCommas(parse.request));
-        $('#adm_po').html(numberWithCommas(parse.po));
-        $('#adm_mutasi').html(numberWithCommas(parse.mutasi));
-        $('#adm_maintenance').html(numberWithCommas(parse.maintenance));
-        $('#adm_pelaporan').html(numberWithCommas(parse.pelaporan));
-      });
+      let bulan = $('#bulanNya').val();
+      let tahun = $('#tahunNya').val();
 
-    }
-
-    function loadMaster(){
-
-      let link = '{{ route("load-master-summary") }}';
-      $.get(link, function(res){
-
-        let parse = JSON.parse(res);
-        $('#master_lokasi').html(numberWithCommas(parse.lokasi));
-        $('#master_requester').html(numberWithCommas(parse.requester));
-        $('#master_vendor').html(numberWithCommas(parse.vendor));
-        $('#master_kategori').html(numberWithCommas(parse.kategori));
-        $('#master_merk').html(numberWithCommas(parse.merk));
-      });
-
-    }
-
-    var loadGrafik = function () {
-
-      var dataArray = [];
-
-      let link = '{{ route("load-chart-asset") }}';
+      let link = '{{ url("dashboard/get_data/") }}/'+bulan+'/'+tahun;
 
       $.get(link, function(res){
-
         let parse = JSON.parse(res);
-        $.each(parse, function(i, v){
-          dataArray.push(v);
+
+        $('#tot_trx').text(parse.tot_trx.toLocaleString());
+        $('#tot_paid').text(parse.tot_paid.toLocaleString());
+        $('#tot_pending').text(parse.tot_pending.toLocaleString());
+        $('#tot_void').text(parse.tot_void.toLocaleString());
+        $('#tot_cancel').text(parse.tot_cancel.toLocaleString());
+        $('#jml_trx_paid').text(parse.jml_trx_paid.toLocaleString());
+        $('#jml_trx_pending').text(parse.jml_trx_pending.toLocaleString());
+        $('#jml_trx_void').text(parse.jml_trx_void.toLocaleString());
+        $('#jml_trx_cancel').text(parse.jml_trx_cancel.toLocaleString());
+        $('#jml_trx_po').text(parse.jml_trx_po.toLocaleString());
+
+        let str = '';
+
+        $.each(parse.data_trx_terakhir, function(idx, val){
+          console.log(val);
+
+          let stat = '';
+
+          if(val.status == 'PAID'){
+            stat = 'text-success';
+          }else if(val.status == 'PENDING/ORDER'){
+            stat = 'text-warning';
+          }else if(val.status == 'VOID'){
+            stat = 'text-danger';
+          }else if(val.status == 'CANCEL'){
+            stat = 'text-danger';
+          }
+
+          let tgl = new Date(val.created_at).toString();
+
+          let temp = '<div class="card m-3">'+
+                  '<div class="card-body">'+
+                    '<div class="row vertical-align">'+
+                      '<div class="col-lg-1">'+
+                        '<i class="fa fa-database text-primary"></i>'+
+                      '</div>'+
+                      '<div class="col-lg-7">'+
+                        '<b class="text-primary">'+val.kode_transaksi+'</b> <br/>'+
+                        val.nama_pembeli+'<br/>'+
+                        '<small><i>'+tgl+'</i></small>'+
+                      '</div>'+
+                      '<div class="col-lg-4 text-end">'+
+                        '<b class="'+stat+'">'+val.status+'</b>'+
+                        '<br/>'+
+                        'Rp. '+(parseFloat(val.jumlah_harga) - parseFloat(val.diskon_nominal)).toLocaleString()+
+                      '</div>'+
+                    '</div>'+
+                  '</div>'+
+                '</div>';
+
+          str += temp;
+
         });
 
-        const ctx = document.getElementById('chart_asset').getContext('2d');
-        const chart_asset = new Chart(ctx, {
+        var d_labels = [];
+        var d_isi = [];
+
+        $.each(parse.chart_labels, function(i, v){
+          d_labels.push(v);
+        });
+
+        $.each(parse.chart_isi, function(i, v){
+          d_isi.push(v);
+        });
+
+        let chartStatus = Chart.getChart("chart_nya");
+        if (chartStatus != undefined) {
+          chartStatus.destroy();
+        }
+
+        const ctx = document.getElementById('chart_nya').getContext('2d');
+
+        const chart_nya = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                labels: d_labels,
                 datasets: [{
-                    label: 'Jumlah Transaksi',
-                    data: dataArray,
+                    label: 'Nominal Transaksi',
+                    data: d_isi,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -587,16 +644,23 @@
             }
         });
 
+        $('#holder_trx_terakhir').html(str);
+
+        $('body').removeClass('loading');
+
       });
 
-    };
+    }
 
     $(function(){
 
-      loadGrafik();
-      loadAdm();
-      loadMaster();
+      $('#btn_cari').click(function(){
+        callData();
+      });
 
+      @if(Auth()->user()->role == 'Admin' || Auth()->user()->role == 'Pemilik')
+      callData();
+      @endif
 
     });
 </script>
