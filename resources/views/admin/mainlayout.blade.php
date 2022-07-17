@@ -74,12 +74,17 @@
   <!-- /.script-loader -->
 
   <script type="text/javascript">
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     function updateTextView(_obj){
       var num = getNumber(_obj.val());
       if(num==0){
         _obj.val('');
       }else{
-        _obj.val(num.toLocaleString());
+        _obj.val(numberWithCommas(num));
       }
     }
     function getNumber(_str){
