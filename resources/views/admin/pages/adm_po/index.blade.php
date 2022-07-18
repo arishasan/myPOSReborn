@@ -434,7 +434,7 @@
             {data: 'id', name: 'id'},
             {data: 'kode_po', name: 'kode_po'},
             {data: 'tgl_po', name: 'tgl_po'},
-            {data: 'nama_supplier', name: 'nama_supplier'},
+            {data: 'nama_supplier', name: 'supplier.nama'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ],
