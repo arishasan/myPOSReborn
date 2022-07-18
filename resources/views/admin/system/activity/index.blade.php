@@ -63,7 +63,7 @@
                       <select class="default-select2 form-control" id="userCari">
                         <option value="all">[ Semua ]</option>
                         @foreach($data_user as $val)
-                          <option value="{{ $val->user_id }}">{{ $val->name }} - {{ $val->email }}</option>
+                          <option value="{{ $val->id }}">{{ $val->name }} - {{ $val->email }}</option>
                         @endforeach
                       </select>
                     </div>

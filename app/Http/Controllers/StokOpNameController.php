@@ -76,6 +76,15 @@ class StokOpNameController extends Controller
 
         try {
 
+            $id_barang = $req->id_barang;
+
+            if(!isset($id_barang)){
+
+                Session::flash('error', 'Tidak ada yang diproses!');
+                return redirect()->route('stok-opname');
+
+            }
+
             $op = new StokOpNameModel;
             $op->tgl_opname = $req->tgl_opname;
             $op->created_by = Auth()->user()->id;

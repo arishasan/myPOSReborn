@@ -46,7 +46,7 @@ class LogController extends Controller
 
                 $data = LogModel::leftJoin('users', 'users.id', '=', 'tb_logs_activity.created_by')
                 ->select(DB::raw('tb_logs_activity.*, users.name as `nama_user`'))
-                ->where('created_by', $req->user)
+                ->where('tb_logs_activity.created_by', $req->user)
                 ->whereBetween(DB::raw('SUBSTR(tb_logs_activity.created_at, 1, 10)'), [$from, $to])
                 ->get();
 
