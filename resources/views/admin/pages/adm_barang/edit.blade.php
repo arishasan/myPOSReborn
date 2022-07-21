@@ -203,7 +203,7 @@
 
                     <div class="row">
 
-                      <div class="col-lg-4">
+                      <div class="col-lg-4" hidden>
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label">Barang Memiliki Tanggal Kadaluarsa? <sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
@@ -215,7 +215,7 @@
                         </div>
                       </div>
 
-                      <div class="col-lg-4">
+                      <div class="col-lg-4" hidden>
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label" for="status">Status</label>
                           <div class="col-lg-12">
@@ -226,7 +226,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-4">
+                      <div class="col-lg">
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label">Harga Grosir Saat QTY Lebih Dari<sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
@@ -485,7 +485,7 @@
                   </div>
 
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4" hidden>
                   <div class="card">
                     <div class="card-body">
                       <div class="form-group row mb-3">

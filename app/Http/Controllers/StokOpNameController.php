@@ -110,6 +110,48 @@ class StokOpNameController extends Controller
                     $dop->catatan = $keterangan[$key];
                     $dop->save();
 
+                    // NEW
+
+                    // DELETE SEMUA DATA STOK
+                    $brg = BarangStokModel::where('id_barang', $id_barang[$key]);
+                    $counted = 0;
+                    foreach ($brg->get() as $kkk => $vv) {
+                        $counted += $vv->stok;
+                    }
+
+                    $brg->delete();
+
+                    if($counted > 0){
+
+                        $aktBarang = new BarangAktivitasModel;
+                        $aktBarang->id_barang = $id_barang[$key];
+                        $aktBarang->status = "Keluar";
+                        $aktBarang->qty = $counted;
+                        $aktBarang->created_by = Auth()->user()->id;
+                        $aktBarang->save();
+
+                    }
+
+                    $stokBarang = new BarangStokModel;
+                    $stokBarang->id_barang = $id_barang[$key];
+                    $stokBarang->stok = $qty_real[$key];
+                    $stokBarang->tgl_kadaluarsa = date('Y-m-d');
+                    $stokBarang->created_by = Auth()->user()->id;
+                    $stokBarang->save();
+
+
+                    if($qty_real[$key] > 0){
+
+                        $aktBarang = new BarangAktivitasModel;
+                        $aktBarang->id_barang = $id_barang[$key];
+                        $aktBarang->status = "Masuk";
+                        $aktBarang->qty = $qty_real[$key];
+                        $aktBarang->created_by = Auth()->user()->id;
+                        $aktBarang->save();
+
+                    }
+
+
                 }
 
                 HelperModel::saveLog('tb_stok_opname', 'Menambahkan data stok opname baru.', $req->all(), '', '');

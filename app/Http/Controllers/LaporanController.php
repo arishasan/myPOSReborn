@@ -18,6 +18,7 @@ use App\Models\AksesModel;
 use App\Models\SatuanModel;
 use App\Models\StokOpNameModel;
 use App\Models\DetStokOpNameModel;
+use App\Models\SupplierModel;
 use DataTables;
 use Illuminate\Support\Facades\DB;
 
@@ -39,6 +40,35 @@ class LaporanController extends Controller
             'data_kategori' => KategoriModel::where('parent', 0)->get()
         ];
         return view('admin.pages.laporan.barang_kategori')->with($data);
+    }
+
+    public function index_opname(){
+        $cekAkses = HelperModel::allowedAccess('Laporan');
+
+        if($cekAkses == false){
+            return view('admin.parts.404');
+        }
+
+        $data = [
+            'data_op' => StokOpNameModel::select(DB::raw('tb_stok_opname.*, users.name'))->leftJoin('users', 'users.id','=','tb_stok_opname.created_by')->get(),
+            'data_barang' => BarangModel::select(DB::raw('tb_barang.*, satuan.nama as `nama_satuan`'))->join('satuan', 'tb_barang.id_satuan', '=', 'satuan.id')->get()
+        ];
+        return view('admin.pages.stok_opname.index')->with($data);
+    }
+
+    public function index_po(){
+        $cekAkses = HelperModel::allowedAccess('Laporan');
+
+        if($cekAkses == false){
+            return view('admin.parts.404');
+        }
+
+        $data = [
+            'data_supplier' => SupplierModel::all(),
+            'data_barang' => BarangModel::select(DB::raw('tb_barang.*, satuan.nama as `nama_satuan`'))->join('satuan', 'tb_barang.id_satuan', '=', 'satuan.id')->get()
+        ];
+
+        return view('admin.pages.adm_po.index')->with($data);
     }
 
     public function get_list_transaksi(Request $req){

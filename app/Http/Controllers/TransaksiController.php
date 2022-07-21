@@ -443,6 +443,11 @@ class TransaksiController extends Controller
             // echo "<pre>";
             // print_r($req->all());
 
+            if($req->qty <= 0){
+                echo "QTY tidak boleh 0 atau minus.";
+                exit();
+            }
+
             $getData = KeranjangModel::where('created_by', Auth()->user()->id)
             ->where('id_barang', $req->id_barang)
             ->where('id_stok_barang', $req->id_stok_barang)

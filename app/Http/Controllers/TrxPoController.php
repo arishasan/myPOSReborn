@@ -321,7 +321,24 @@ class TrxPoController extends Controller
             if(isset($req->catatan_retur)){
                 $getPO->catatan_retur = $req->catatan_retur;
             }
-            $getPO->status = $req->status;
+
+            $stat = '';
+
+            if($req->status == 'SELESAI'){
+
+                if($req->apakah_sesuai == '1'){
+                    $stat = 'SELESAI';
+                }else{
+                    $stat = 'RETUR';
+                }
+
+            }else if($req->status == 'RETUR'){
+                $stat = 'RETUR SELESAI';
+            }else{
+                $stat = $req->status;
+            }
+
+            $getPO->status = $stat;
             $getPO->save();
 
             $id_det = $req->id_det;
@@ -333,55 +350,65 @@ class TrxPoController extends Controller
                 
                 if($req->status == 'SELESAI'){
 
-                    $getDetPo = DetPoModel::find($id_det[$key]);
-                    if(null !== $getDetPo){
+                    if($req->apakah_sesuai == '1'){
 
-                        $dBarang = BarangModel::find($getDetPo->id_barang);
+                        $getDetPo = DetPoModel::find($id_det[$key]);
+                        if(null !== $getDetPo){
 
-                        if(null !== $dBarang){
+                            $dBarang = BarangModel::find($getDetPo->id_barang);
 
-                            if($dBarang->expired_date_status == 0){
+                            if(null !== $dBarang){
 
-                                $stokBarang = new BarangStokModel;
-                                $stokBarang->id_barang = $dBarang->id;
-                                $stokBarang->stok = $getDetPo->qty_tersedia;
-                                $stokBarang->tgl_kadaluarsa = date('Y-m-d');
-                                $stokBarang->created_by = Auth()->user()->id;
-                                $stokBarang->save();
-
-                            }else{
-
-                                $stokBarang = BarangStokModel::where('id_barang', $dBarang->id)
-                                ->where('tgl_kadaluarsa', $getDetPo->exp_date)->first();
-
-                                if(null !== $stokBarang){
-                                    $stokBarang->stok = $stokBarang->stok + $getDetPo->qty_tersedia;
-                                    $stokBarang->save();
-                                }else{
+                                // if($dBarang->expired_date_status == 0){
 
                                     $stokBarang = new BarangStokModel;
                                     $stokBarang->id_barang = $dBarang->id;
                                     $stokBarang->stok = $getDetPo->qty_tersedia;
-                                    $stokBarang->tgl_kadaluarsa = date('Y-m-d', strtotime($getDetPo->exp_date));
+                                    $stokBarang->tgl_kadaluarsa = date('Y-m-d');
                                     $stokBarang->created_by = Auth()->user()->id;
                                     $stokBarang->save();
+
+                                // }else{
+
+                                //     $stokBarang = BarangStokModel::where('id_barang', $dBarang->id)
+                                //     ->where('tgl_kadaluarsa', $getDetPo->exp_date)->first();
+
+                                //     if(null !== $stokBarang){
+                                //         $stokBarang->stok = $stokBarang->stok + $getDetPo->qty_tersedia;
+                                //         $stokBarang->save();
+                                //     }else{
+
+                                //         $stokBarang = new BarangStokModel;
+                                //         $stokBarang->id_barang = $dBarang->id;
+                                //         $stokBarang->stok = $getDetPo->qty_tersedia;
+                                //         $stokBarang->tgl_kadaluarsa = date('Y-m-d', strtotime($getDetPo->exp_date));
+                                //         $stokBarang->created_by = Auth()->user()->id;
+                                //         $stokBarang->save();
+
+                                //     }
+
+                                // }
+
+                                if($getDetPo->qty_tersedia > 0){
+
+                                    $aktBarang = new BarangAktivitasModel;
+                                    $aktBarang->id_barang = $dBarang->id;
+                                    $aktBarang->status = "Masuk";
+                                    $aktBarang->qty = $getDetPo->qty_tersedia;
+                                    $aktBarang->created_by = Auth()->user()->id;
+                                    $aktBarang->save();
 
                                 }
 
                             }
 
-                            if($getDetPo->qty_tersedia > 0){
-
-                                $aktBarang = new BarangAktivitasModel;
-                                $aktBarang->id_barang = $dBarang->id;
-                                $aktBarang->status = "Masuk";
-                                $aktBarang->qty = $getDetPo->qty_tersedia;
-                                $aktBarang->created_by = Auth()->user()->id;
-                                $aktBarang->save();
-
-                            }
-
                         }
+
+                    }else{
+
+                        $getDetPo = DetPoModel::find($id_det[$key]);
+                        $getDetPo->qty_retur = $qty_tersedia[$key];
+                        $getDetPo->save();
 
                     }
 
@@ -398,65 +425,87 @@ class TrxPoController extends Controller
 
                         if(null !== $dBarang){
 
-                            if($dBarang->expired_date_status == 0){
+                            $stokBarang = new BarangStokModel;
+                            $stokBarang->id_barang = $dBarang->id;
+                            $stokBarang->stok = ($getDetPo->qty_tersedia - $getDetPo->qty_retur);
+                            $stokBarang->tgl_kadaluarsa = date('Y-m-d');
+                            $stokBarang->created_by = Auth()->user()->id;
+                            $stokBarang->save();
 
-                                $temp_stok_inp = $getDetPo->qty_retur;
-                                do {
-                                    
-                                    $getStokTerakhir = BarangStokModel::where('id_barang', $dBarang->id)
-                                    ->whereRaw('stok > 0')
-                                    ->orderBy('created_at', 'DESC')
-                                    ->first();
-
-                                    if(null !== $getStokTerakhir){
-
-                                        if($getStokTerakhir->stok <= $temp_stok_inp){
-
-                                            $temp_stok_inp = $temp_stok_inp - $getStokTerakhir->stok;
-
-                                            $getStokTerakhir->stok = 0;
-                                            $getStokTerakhir->save();
-
-                                        }else{
-
-                                            $getStokTerakhir->stok = $getStokTerakhir->stok - $temp_stok_inp;
-                                            $getStokTerakhir->save();
-
-                                            $temp_stok_inp = 0;
-
-                                        }
-
-
-                                    }else{
-                                        $temp_stok_inp = 0;
-                                    }
-
-                                } while ($temp_stok_inp != 0);
-
-                            }else{
-
-                                $stokBarang = BarangStokModel::where('id_barang', $dBarang->id)
-                                ->where('tgl_kadaluarsa', $getDetPo->exp_date)->first();
-
-                                if(null !== $stokBarang){
-                                    $stokBarang->stok = $stokBarang->stok - $getDetPo->qty_retur;
-                                    $stokBarang->save();
-                                }
-
-                            }
-
-                            if($getDetPo->qty_retur > 0){
+                            if(($getDetPo->qty_tersedia - $getDetPo->qty_retur) > 0){
 
                                 $aktBarang = new BarangAktivitasModel;
                                 $aktBarang->id_barang = $dBarang->id;
-                                $aktBarang->status = "Keluar";
-                                $aktBarang->qty = $getDetPo->qty_retur;
+                                $aktBarang->status = "Masuk";
+                                $aktBarang->qty = ($getDetPo->qty_tersedia - $getDetPo->qty_retur);
                                 $aktBarang->created_by = Auth()->user()->id;
                                 $aktBarang->save();
 
                             }
 
                         }
+
+                        // if(null !== $dBarang){
+
+                        //     if($dBarang->expired_date_status == 0){
+
+                        //         $temp_stok_inp = $getDetPo->qty_retur;
+                        //         do {
+                                    
+                        //             $getStokTerakhir = BarangStokModel::where('id_barang', $dBarang->id)
+                        //             ->whereRaw('stok > 0')
+                        //             ->orderBy('created_at', 'DESC')
+                        //             ->first();
+
+                        //             if(null !== $getStokTerakhir){
+
+                        //                 if($getStokTerakhir->stok <= $temp_stok_inp){
+
+                        //                     $temp_stok_inp = $temp_stok_inp - $getStokTerakhir->stok;
+
+                        //                     $getStokTerakhir->stok = 0;
+                        //                     $getStokTerakhir->save();
+
+                        //                 }else{
+
+                        //                     $getStokTerakhir->stok = $getStokTerakhir->stok - $temp_stok_inp;
+                        //                     $getStokTerakhir->save();
+
+                        //                     $temp_stok_inp = 0;
+
+                        //                 }
+
+
+                        //             }else{
+                        //                 $temp_stok_inp = 0;
+                        //             }
+
+                        //         } while ($temp_stok_inp != 0);
+
+                        //     }else{
+
+                        //         $stokBarang = BarangStokModel::where('id_barang', $dBarang->id)
+                        //         ->where('tgl_kadaluarsa', $getDetPo->exp_date)->first();
+
+                        //         if(null !== $stokBarang){
+                        //             $stokBarang->stok = $stokBarang->stok - $getDetPo->qty_retur;
+                        //             $stokBarang->save();
+                        //         }
+
+                        //     }
+
+                        //     if($getDetPo->qty_retur > 0){
+
+                        //         $aktBarang = new BarangAktivitasModel;
+                        //         $aktBarang->id_barang = $dBarang->id;
+                        //         $aktBarang->status = "Keluar";
+                        //         $aktBarang->qty = $getDetPo->qty_retur;
+                        //         $aktBarang->created_by = Auth()->user()->id;
+                        //         $aktBarang->save();
+
+                        //     }
+
+                        // }
 
                     }
 
@@ -559,8 +608,8 @@ class TrxPoController extends Controller
                         $btn = '<br/><a href="'.url('transaksi/po/lanjut/PROSES').'/'.md5($row->id).'" target="_blank" class="form-control btn btn-outline-success">PROSES <i class="fa fa-arrow-right"></i></a>';
                     }else if(Auth()->user()->role == 'Admin' && $row->status == 'DIPROSES'){
                         $btn = '<br/><a href="'.url('transaksi/po/lanjut/TERIMA_BARANG').'/'.md5($row->id).'" target="_blank" class="form-control btn btn-outline-primary">TERIMA BARANG <i class="fa fa-arrow-right"></i></a>';
-                    }else if(Auth()->user()->role == 'Admin' && $row->status == 'SELESAI'){
-                        $btn = '<br/><a href="'.url('transaksi/po/lanjut/RETUR').'/'.md5($row->id).'" target="_blank" class="form-control btn btn-outline-danger"><i class="fa fa-arrow-left"></i> RETUR</a>';
+                    }else if(Auth()->user()->role == 'Supplier' && $row->status == 'RETUR'){
+                        $btn = '<br/><a href="'.url('transaksi/po/lanjut/RETUR').'/'.md5($row->id).'" target="_blank" class="form-control btn btn-outline-danger"><i class="fa fa-arrow-left"></i> KONFIRMASI RETUR</a>';
                     }
 
                     return '<center><b class="text-primary">'.$row->status.'</b> <br/> '.$btn.'</center>';
@@ -581,7 +630,7 @@ class TrxPoController extends Controller
                         $tombolEdit = '';
                         $tombolCetak = '';
                         $tombolHapus = '';
-                    }else if($row->status == 'RETUR'){
+                    }else if($row->status == 'RETUR' || $row->status == 'RETUR SELESAI'){
                         $tombolCetak = '';
                         $tombolEdit = '';
                         $tombolHapus = '';
@@ -592,7 +641,11 @@ class TrxPoController extends Controller
                         $tombolHapus = '';
                     }
 
-                    $push = $tombolCetak.$tombolDetail.$tombolEdit.$tombolHapus;
+                    if(Auth()->user()->role == 'Pemilik'){
+                        $push = $tombolDetail;
+                    }else{
+                        $push = $tombolCetak.$tombolDetail.$tombolEdit.$tombolHapus;
+                    }
 
                     $btn = '
                         <center>

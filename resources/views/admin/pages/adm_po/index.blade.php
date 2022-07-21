@@ -53,7 +53,7 @@
         <li class="nav-item">
           <a href="#default-tab-1" data-bs-toggle="tab" class="nav-link active" id="tab_satu">Data Tabel</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" {{ Auth()->user()->role == 'Pemilik' ? 'hidden' : '' }}>
           <a href="#default-tab-3" data-bs-toggle="tab" class="nav-link" id="tab_tiga">Tambah Data Baru</a>
         </li>
       </ul>
@@ -78,6 +78,7 @@
                         <option value="DIPROSES">DIPROSES</option>
                         <option value="SELESAI">SELESAI</option>
                         <option value="RETUR">RETUR</option>
+                        <option value="RETUR SELESAI">RETUR SELESAI</option>
                       </select>
                     </div>
                   </div>

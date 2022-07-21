@@ -47,7 +47,7 @@
 				<th width="5%">No.</th>
 				<th width="12%">Kode Barang</th>
 				<th>Nama Barang</th>
-				<th width="15%"><center>Expired Date</center></th>
+				<!-- <th width="15%"><center>Expired Date</center></th> -->
 				<th width="15%" style="text-align: right;">Harga Satuan</th>
 				<th width="5%"><center>QTY</center></th>
 				<th width="15%" style="text-align: right;">Jumlah</th>
@@ -69,7 +69,7 @@
 					<td>{{ $key+1 }}.</td>
 					<td><b>{{ @$getBarang->kode_barang }}</b></td>
 					<td>{{ @$getBarang->nama_barang }}</td>
-					<td><center>{{ (null !== $getStok ? date('d M Y', strtotime($getStok->tgl_kadaluarsa)) : '-') }}</center></td>
+					<!-- <td><center>{{ (null !== $getStok ? date('d M Y', strtotime($getStok->tgl_kadaluarsa)) : '-') }}</center></td> -->
 					<td style="text-align: right">
 						Rp. {{ number_format($val->harga_satuan_barang) }}
 					</td>
@@ -90,23 +90,23 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan="6" style="text-align: right"><b>Total</b></td>
+				<td colspan="5" style="text-align: right"><b>Total</b></td>
 				<td style="text-align: right"><b>Rp. {{ number_format($data_trx->jumlah_harga) }}</b></td>
 			</tr>
 			<tr>
-				<td colspan="6" style="text-align: right"><b>Diskon</b></td>
+				<td colspan="5" style="text-align: right"><b>Diskon</b></td>
 				<td style="text-align: right"><b>Rp. {{ number_format($data_trx->diskon_nominal) }}</b></td>
 			</tr>
 			<tr>
-				<td colspan="6" style="text-align: right"><b>Sub Total</b></td>
+				<td colspan="5" style="text-align: right"><b>Sub Total</b></td>
 				<td style="text-align: right"><b>Rp. {{ number_format(($data_trx->jumlah_harga - $data_trx->diskon_nominal)) }}</b></td>
 			</tr>
 			<tr>
-				<td colspan="6" style="text-align: right"><b>Nominal Bayar</b></td>
+				<td colspan="5" style="text-align: right"><b>Nominal Bayar</b></td>
 				<td style="text-align: right"><b>Rp. {{ number_format($data_trx->nominal_bayar) }}</b></td>
 			</tr>
 			<tr>
-				<td colspan="6" style="text-align: right"><b>Kembalian</b></td>
+				<td colspan="5" style="text-align: right"><b>Kembalian</b></td>
 				<td style="text-align: right"><b>Rp. {{ number_format($data_trx->nominal_bayar - ($data_trx->jumlah_harga - $data_trx->diskon_nominal)) }}</b></td>
 			</tr>
 		</tfoot>

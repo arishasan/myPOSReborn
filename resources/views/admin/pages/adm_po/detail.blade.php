@@ -103,7 +103,8 @@
         <td width="8%" class="text-center"><label>QTY Dipesan <br/> (Admin)</label></td>
         <td width="8%" class="text-center"><label>QTY Tersedia <br/> (Supplier)</label></td>
         <td width="8%" class="text-center"><label>QTY Retur <br/> (Admin)</label></td>
-        <td width="15%" class="text-center">Tgl. Expired <br/> (Supplier)</td>
+        <td width="8%" class="text-center"><label>Est. QTY Masuk Stok</label></td>
+        <!-- <td width="15%" class="text-center">Tgl. Expired <br/> (Supplier)</td> -->
         <td width="15%" class="text-end"><label>Harga Satuan <br/> (Supplier)</label></td>
       </tr>
     </thead>
@@ -139,9 +140,12 @@
               <td class="text-center" width="8%">
                 <b>{{ $val->qty_retur }}</b>
               </td>
-              <td class="text-center" width="15%">
-                <b>{{ ($val->is_exp_date == 1 ? date('d M Y', strtotime($val->exp_date)) : '') }}</b>
+              <td class="text-center" width="8%">
+                <b>{{ ($val->qty_tersedia - $val->qty_retur) }}</b>
               </td>
+              <!-- <td class="text-center" width="15%">
+                <b>{{ ($val->is_exp_date == 1 ? date('d M Y', strtotime($val->exp_date)) : '') }}</b>
+              </td> -->
               <td class="text-end" width="15%">Rp. <label>{{ number_format($val->harga_satuan) }}</label></td> 
           </tr>
 

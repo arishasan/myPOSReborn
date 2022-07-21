@@ -177,6 +177,9 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('laporan/barang/kategori/{id}', 'LaporanController@get_laporan_kategori_barang');
 		Route::post('laporan/get_list_transaksi', 'LaporanController@get_list_transaksi');
 
+		Route::get('laporan/stok_opname', 'LaporanController@index_opname')->name('laporan-opname');
+		Route::get('laporan/po', 'LaporanController@index_po')->name('laporan-po');
+
 		// END OF LAPORAN
 
 

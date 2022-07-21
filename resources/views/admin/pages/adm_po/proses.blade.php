@@ -61,7 +61,7 @@
           <form method="POST" action="{{ route('proses-po') }}" class="form-horizontal" data-parsley-validate="true" name="demo-form">  
             @csrf
             <input type="hidden" name="id" value="{{ $data_po->id }}">
-            <input type="hidden" name="status" value="{{ $status }}">
+            <input type="hidden" name="status" id="stat_nya" value="{{ $status }}">
             <div class="row">
               
               <div class="col-lg-7">
@@ -101,7 +101,21 @@
                         </div>
 
                       </div>
-                     
+
+                      @if($status == 'SELESAI')
+
+                      <div class="form-group row mb-3">
+                        <label class="col-lg-12 col-form-label form-label" for="sewa">Apakah pesanan sudah sesuai?<sup class="text-danger">*</sup></label>
+                        <div class="col-lg-12">
+                          <select class="form-control" name="apakah_sesuai" id="select_sesuai" required>
+                            <option value="">[ Silahkan Pilih ]</option>
+                            <option value="1">Ya, Sesuai</option>
+                            <option value="2">Tidak, Lakukan Retur</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      @endif
 
                       <div class="card mb-3">
                         <div class="card-header">
@@ -138,35 +152,33 @@
 
                         @endif
 
-                        @if($status == 'RETUR')
 
-                          @if($data_po->status == 'SELESAI')
+                        @if($status == 'SELESAI')
 
-                            <div class="col-lg-12" <?= Auth()->user()->role == 'Supplier' ? 'hidden' : '' ?>>
-                              <div class="form-group row mb-3">
-                                <label class="col-lg-12 col-form-label form-label" for="catatan">Catatan Retur dari <b>Admin</b></label>
-                                <div class="col-lg-12">
-                                  <div class="table-responsive">
-                                    <textarea class="form-control catatan" id="catatan" name="catatan_retur" rows="3" placeholder="Catatan ...">{{ $data_po->catatan_retur }}</textarea>
-                                  </div>
+                          <div class="col-lg-12 txt_catatan_retur" <?= Auth()->user()->role == 'Supplier' ? 'hidden' : 'hidden' ?>>
+                            <div class="form-group row mb-3">
+                              <label class="col-lg-12 col-form-label form-label" for="catatan">Catatan Retur dari <b>Admin</b></label>
+                              <div class="col-lg-12">
+                                <div class="table-responsive">
+                                  <textarea class="form-control catatan" id="catatan" name="catatan_retur" rows="3" placeholder="Catatan ...">{{ $data_po->catatan_retur }}</textarea>
                                 </div>
                               </div>
                             </div>
-
-                          @else
-
-                          <div class="card mb-3">
-                            <div class="card-header">
-                              Catatan Retur dari <b>Admin</b>
-                            </div>
-                            <div class="card-body">
-                              {!! $data_po->catatan_retur !!}
-                            </div>
                           </div>
 
-                          @endif
+                        @else
+
+                        <div class="card mb-3">
+                          <div class="card-header">
+                            Catatan Retur dari <b>Admin</b>
+                          </div>
+                          <div class="card-body">
+                            {!! $data_po->catatan_retur !!}
+                          </div>
+                        </div>
 
                         @endif
+
 
 
                   </div>
@@ -190,7 +202,6 @@
                 <div class="tab-content bg-white p-3">
                   <!-- BEGIN tab-pane -->
                   <div class="tab-pane fade active show" id="tab_det1">
-                    
                     
                     <div data-scrollbar="true" data-height="600px">
                       <div id="body_detail_po">
@@ -224,28 +235,35 @@
                                       @if($status == 'RETUR')
 
                                       <br/>QTY Tersedia (Supplier) <b>x{{ $val->qty_tersedia }} {{ $satuan }}</b>
+                                      <br/>QTY Retur (Admin) <b>x{{ $val->qty_retur }} {{ $satuan }}</b>
 
                                       @endif
 
                                     </label>
                                     <hr>
                                     <div class="row">
-                                      <div class="col-lg-7">
+                                      <div class="col-lg-6">
                                         <label>Harga Satuan</label><br/><br/>
                                         <input type="text" class="form-control currency" name="harga_satuan[]" value="{{ number_format($val->harga_satuan) }}" {{ $status == 'SELESAI' || $status == 'RETUR' ? 'readonly' : '' }}>
                                       </div>
-                                      <div class="col-lg-5 text-end">
-                                        @if($status == 'RETUR')
+                                      <div class="col-lg-6 text-end">
+                                        @if($status == 'SELESAI')
 
-                                        <label>QTY (Retur) Max: <b>{{ $val->qty_tersedia }}</b></label>
+                                        <label>QTY (Tersedia/Retur) Max: <b>{{ $val->qty_tersedia }}</b></label>
                                         <br/><br/>
-                                        <input type="number" class="form-control" name="qty_tersedia[]" min="1" step="0.1" max="{{ $val->qty_tersedia }}" value="{{ $val->qty_tersedia }}">
+                                        <input type="number" class="form-control qty_tersedia" name="qty_tersedia[]" min="1" step="0.1" max="{{ $val->qty_tersedia }}" value="{{ $val->qty_tersedia }}" readonly>
+
+                                        @elseif($status == 'RETUR')
+
+                                        <label>QTY (Diretur) Max: <b>{{ $val->qty_retur }}</b></label>
+                                        <br/><br/>
+                                        <input type="number" class="form-control qty_tersedia" name="qty_tersedia[]" min="1" step="0.1" max="{{ $val->qty_retur }}" value="{{ $val->qty_retur }}" readonly>
                                         
                                         @else
 
                                         <label>QTY (Tersedia) Max: <b>{{ $val->qty_dipesan }}</b></label>
                                         <br/><br/>
-                                        <input type="number" class="form-control" name="qty_tersedia[]" min="1" step="0.1" max="{{ $val->qty_dipesan }}" value="{{ ($val->qty_tersedia != 0 ? $val->qty_tersedia : $val->qty_dipesan) }}" {{ $status == 'SELESAI' ? 'readonly' : '' }}>
+                                        <input type="number" class="form-control qty_tersedia" name="qty_tersedia[]" min="1" step="0.1" max="{{ $val->qty_dipesan }}" value="{{ ($val->qty_tersedia != 0 ? $val->qty_tersedia : $val->qty_dipesan) }}" {{ $status == 'SELESAI' ? 'readonly' : '' }}>
 
                                         @endif
                                       </div>
@@ -380,6 +398,20 @@
     });
 
     $(function(){
+
+      $('#select_sesuai').on('change', function(){
+
+        if($(this).val() == '2'){
+
+          $(document).find('.qty_tersedia').removeAttr('readonly');
+          $('.txt_catatan_retur').removeAttr('hidden');
+
+        }else{
+          $(document).find('.qty_tersedia').attr('readonly', true);
+          $('.txt_catatan_retur').attr('hidden', true);
+        }
+
+      });
 
       $('.catatan').summernote({
         height: "200px"

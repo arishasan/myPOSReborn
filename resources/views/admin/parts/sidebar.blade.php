@@ -52,7 +52,7 @@
       </div>
 
 
-      <div class="menu-item has-sub {{ Request::is('transaksi/*') || Request::is('transaksi') ? 'active' : '' }}" >
+      <div class="menu-item has-sub {{ Request::is('transaksi/*') || Request::is('transaksi') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Pemilik' ? 'hidden' : '') ?>>
         <a href="javascript:;" class="menu-link">
           <div class="menu-icon">
             <i class="fa fa-laptop"></i>
@@ -74,7 +74,7 @@
             </a>
           </div>
 
-          <div class="menu-item {{ Request::is('transaksi/stok_opname') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Admin' || Auth()->user()->role == 'Pemilik' ? '' : 'hidden') ?>>
+          <div class="menu-item {{ Request::is('transaksi/stok_opname') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Admin' ? '' : 'hidden') ?>>
             <a href="{{ route('stok-opname') }}" class="menu-link">
               <div class="menu-text">Stock Opname</div>
             </a>
@@ -97,6 +97,18 @@
           <div class="menu-item {{ Request::is('laporan/barang') ? 'active' : '' }}">
             <a href="{{ route('laporan-barang') }}" class="menu-link">
               <div class="menu-text">Penjualan Barang</div>
+            </a>
+          </div>
+
+          <div class="menu-item {{ Request::is('laporan/stok_opname') ? 'active' : '' }}">
+            <a href="{{ route('laporan-opname') }}" class="menu-link">
+              <div class="menu-text">Stok Opname</div>
+            </a>
+          </div>
+
+          <div class="menu-item {{ Request::is('laporan/po') ? 'active' : '' }}">
+            <a href="{{ route('laporan-po') }}" class="menu-link">
+              <div class="menu-text">Pemesanan Barang (PO)</div>
             </a>
           </div>
 

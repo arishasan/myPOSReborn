@@ -63,6 +63,7 @@
                       <th width="1%" hidden></th>
                       <th><label>Tanggal OpName</label></th>
                       <th width="10%"><center><label>Oleh</label></center></th>
+                      <th width="10%"><center><label>Tgl. Input</label></center></th>
                       <th width="13%" data-orderable="false"></th>
                     </tr>
                   </thead>
@@ -73,6 +74,9 @@
                       <td hidden>{{ $val->id }}</td>
                       <td>{{ date('d M Y', strtotime($val->tgl_opname)) }}</td>
                       <td><center>{{ $val->name }}</center></td>
+                      <td>
+                        <center>{{ date('d M Y, H:i:s', strtotime($val->created_at)) }}</center>
+                      </td>
                       <td>
 
                         <center>

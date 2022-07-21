@@ -295,7 +295,7 @@
                     </div>
 
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-lg-4" hidden>
                     <div class="card">
                       <div class="card-body">
                         <div class="form-group row mb-3">

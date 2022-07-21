@@ -312,7 +312,7 @@
 
                     <div class="row">
 
-                      <div class="col-lg-4">
+                      <div class="col-lg-4" hidden>
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label">Barang Memiliki Tanggal Kadaluarsa? <sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
@@ -324,7 +324,7 @@
                         </div>
                       </div>
 
-                      <div class="col-lg-3">
+                      <div class="col-lg-3" hidden>
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label">Tanggal Kadaluarsa <sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">

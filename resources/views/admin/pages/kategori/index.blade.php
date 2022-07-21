@@ -74,7 +74,7 @@
                 <input type="text" class="form-control" name="nama_kategori" id="nama_kategori" placeholder="Masukkan Nama Kategori.." data-parsley-required="true" />
               </div>
               <br/>
-              <div class="form-group">
+              <div class="form-group" hidden>
                 <label>Kode</label>
                 <input type="text" class="form-control" name="kode_kategori" id="kode_kategori" placeholder="Masukkan Kode Kategori.." data-parsley-required="true" />
               </div>
@@ -297,10 +297,10 @@
         let nama = $('#nama_kategori').val();
         let kode = $('#kode_kategori').val();
 
-        if(nama == "" || kode == ""){
+        if(nama == ""){
           swal({
             title: 'Perhatian',
-            text: 'Nama dan kode kategori, tidak boleh kosong!',
+            text: 'Nama kategori, tidak boleh kosong!',
             icon: 'error',
           });
         }else{
