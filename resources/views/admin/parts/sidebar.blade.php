@@ -100,13 +100,13 @@
             </a>
           </div>
 
-          <div class="menu-item {{ Request::is('laporan/stok_opname') ? 'active' : '' }}">
+          <div class="menu-item {{ Request::is('laporan/stok_opname') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Pemilik' ? '' : 'hidden') ?>>
             <a href="{{ route('laporan-opname') }}" class="menu-link">
               <div class="menu-text">Stok Opname</div>
             </a>
           </div>
 
-          <div class="menu-item {{ Request::is('laporan/po') ? 'active' : '' }}">
+          <div class="menu-item {{ Request::is('laporan/po') ? 'active' : '' }}" <?= (Auth()->user()->role == 'Pemilik' ? '' : 'hidden') ?>>
             <a href="{{ route('laporan-po') }}" class="menu-link">
               <div class="menu-text">Pemesanan Barang (PO)</div>
             </a>
