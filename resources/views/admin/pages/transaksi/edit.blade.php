@@ -55,6 +55,39 @@
           <div class="row">
               
               <div class="col-lg-8">
+
+                <div class="card">
+                  <div class="card-header">
+                    Cari barang dengan barcode scanner
+                  </div>
+                  <div class="card-body">
+                      
+                    <div class="row">
+                      <div class="col-lg-9">
+
+                        <div class="form-group row ">
+                          <div class="col-lg-12">
+                            
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <input class="form-control" type="text" placeholder="Masukkan Kode Barang" id="scan_kode_barang" />
+                                  <small class="text-success">Arahkan mouse pada input field di sebelah kiri kemudian scan barcode pada barang untuk menginputkan kode barang secara otomatis</small>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        
+                      </div>
+                      <div class="col-lg-3">
+                        <button type="button" class="btn btn-outline-primary form-control" id="cari_scan"><i class="fa fa-search"></i> Cari Barang</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <br/>
                 
                 <div class="card">
                   <div class="card-body">
@@ -599,6 +632,107 @@
     }
 
     $(function(){
+
+      $("#scan_kode_barang").on('keyup', function (e) {
+          if (e.key === 'Enter' || e.keyCode === 13) {
+              $('#cari_scan').trigger('click');
+          }
+      });
+
+      $('#cari_scan').click(function(){
+
+        let kode = $('#scan_kode_barang').val();
+        let link = '{{ url("transaksi/get_barang_by_kode") }}/'+kode;
+
+        $('body').addClass('loading');
+
+        $.get(link, function(res){
+
+          $('body').removeClass('loading');
+
+          if(res == 'no'){
+            swal("Oops!", "Tidak ada barang yang ditemukan dengan kode barang : " + kode, "error");
+            $('#scan_kode_barang').val('');
+          }else{
+
+            let parse = JSON.parse(res);
+
+            console.log(parse);
+
+            minimalSwitchGrosir = 0;
+            globalStok = 0;
+            globalDetStok = [];
+            isExpiracy = 0;
+            globalIDDetStok = 0;
+
+            $('#cart_qty').val(1);
+
+            let data = parse.id;
+            let nama = parse.nama_barang;
+            let kode = parse.kode_barang;
+            let satuan = parse.nama_satuan;
+            let link = "{{ url('transaksi/barang/get_detail_barang_lengkap') }}/" + data;
+
+            $.get(link, function(res){
+
+              let decode = JSON.parse(res);
+
+              $('#cart_id_barang').val(decode.id_barang);
+              $('#cart_is_expire').val(decode.is_expire_date);
+              $('#cart_harga_grosir').val(decode.harga_grosir);
+              $('#cart_harga_eceran').val(decode.harga_eceran);
+
+              minimalSwitchGrosir = decode.qty_min_grosir;
+
+              let pilihKadaluarsa = '<label>Silahkan Pilih Tanggal Kadaluarsa</label><hr><div class="row">';
+
+              if(decode.is_expire_date == 0){
+
+                isExpiracy = 0;
+                globalStok = decode.stok_akumulasi;
+                $('#cart_stok_tersedia').text(globalStok);
+                $('#holder_add_cart').attr('hidden', true);
+                $('#holder_cart_qty').attr('hidden', false);
+
+              }else{
+
+                globalDetStok = decode.det_stok;
+                isExpiracy = 1;
+
+                $.each(decode.det_stok, function(idx, val){
+
+                  console.log(val.stok);
+                  pilihKadaluarsa += '<div class="col-lg"><button class="btn btn-outline-primary form-control cart_pilih_stok" data-id="' + val.id + '">'+formatDate(val.tgl_kadaluarsa)+' <br/> Stok : '+ val.stok +'</button></div>';
+
+                });
+
+                $('#holder_add_cart').attr('hidden', false);
+                $('#holder_cart_qty').attr('hidden', true);
+
+              }
+
+              pilihKadaluarsa += '</div>';
+
+
+              $('#cart_kode_barang').text(kode);
+              $('#cart_nama_barang').text(nama);
+              $('#cart_satuan_barang').text(satuan);
+              $('#cart_auto_grosir').text(decode.qty_min_grosir);
+
+              $('#cart_harga_grosir_txt').text("Rp. " + decode.harga_grosir.toLocaleString());
+              $('#cart_harga_eceran_txt').text("Rp. " + decode.harga_eceran.toLocaleString());
+
+              $('#holder_add_cart').html(pilihKadaluarsa);
+              $('#modal_add_cart').modal('show');
+            });
+
+            $('#scan_kode_barang').val('');
+
+          }
+
+        });
+
+      });
 
 
       $('#dataTree_kategori')

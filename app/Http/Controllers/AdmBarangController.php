@@ -59,10 +59,12 @@ class AdmBarangController extends Controller
 
         $rules = [
             'foto' => 'max:2120', //2MB
+            'kode_barang' => 'unique:tb_barang,kode_barang'
         ];
 
         $messages = [
             'foto.max' => 'Maksimal upload foto hanya 2MB!',
+            'kode_barang.unique' => 'Kode Barang sudah ada di database! Gunakan kode yang lain.'
         ];
 
         $validator = Validator::make($req->all(), $rules, $messages);
@@ -76,7 +78,7 @@ class AdmBarangController extends Controller
         $kode_barang = "-";
         
         $rakitKodeBarang = BarangModel::generate_kodeBarang();
-        $kode_barang = $rakitKodeBarang;
+        $kode_barang = $req->kode_barang;
 
 
         $url_foto = '';
@@ -157,13 +159,27 @@ class AdmBarangController extends Controller
 
                 $kode_barang = "-";
 
-                $rules = [
-                    'foto' => 'max:2120', //2MB
-                ];
+                if($req->kode_barang == $data->kode_barang){
+                    $rules = [
+                        'foto' => 'max:2120', //2MB
+                    ];
 
-                $messages = [
-                    'foto.max' => 'Maksimal upload foto hanya 2MB!',
-                ];
+                    $messages = [
+                        'foto.max' => 'Maksimal upload foto hanya 2MB!',
+                    ];
+                }else{
+
+                    $rules = [
+                        'foto' => 'max:2120', //2MB
+                        'kode_barang' => 'unique:tb_barang,kode_barang'
+                    ];
+
+                    $messages = [
+                        'foto.max' => 'Maksimal upload foto hanya 2MB!',
+                        'kode_barang.unique' => 'Kode Barang sudah ada di database! Gunakan kode yang lain.'
+                    ];
+
+                }
 
                 $validator = Validator::make($req->all(), $rules, $messages);
 
@@ -188,6 +204,7 @@ class AdmBarangController extends Controller
                 }
 
                 $barang = $data;
+                $barang->kode_barang = $req->kode_barang;
                 $barang->id_kategori = $req->id_kategori;
                 $barang->id_satuan = $req->id_satuan;
                 $barang->photo_url = $url_foto;

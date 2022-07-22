@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2022 at 01:58 PM
+-- Generation Time: Jul 22, 2022 at 02:16 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -205,7 +205,10 @@ INSERT INTO `tb_aktivitas_barang` (`id_aktivitas_barang`, `id_barang`, `status`,
 (82, 7, 'Keluar', 5, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1),
 (83, 5, 'Keluar', 3, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1),
 (84, 7, 'Keluar', 2, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1),
-(85, 8, 'Keluar', 39, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1);
+(85, 8, 'Keluar', 39, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1),
+(86, 9, 'Masuk', 100, '2022-07-22 18:32:46', '2022-07-22 18:32:46', 1),
+(87, 8, 'Keluar', 11, '2022-07-22 19:15:08', '2022-07-22 19:15:08', 1),
+(88, 9, 'Keluar', 20, '2022-07-22 19:15:08', '2022-07-22 19:15:08', 1);
 
 -- --------------------------------------------------------
 
@@ -239,7 +242,8 @@ INSERT INTO `tb_barang` (`id`, `id_kategori`, `id_satuan`, `photo_url`, `kode_ba
 (5, 1, 3, 'assets/logo/noimage.png', 'BR.07.003', 'Gula Merah', NULL, 1, 0, 10, '2022-07-12 17:47:53', '2022-07-12 17:47:53', 1),
 (6, 3, 1, 'assets/logo/noimage.png', 'BR.07.004', 'Lemonilo', NULL, 1, 0, 6, '2022-07-13 21:09:04', '2022-07-13 21:09:04', 1),
 (7, 2, 1, 'assets/logo/noimage.png', 'BR.07.005', 'Ale-Ale', NULL, 1, 0, 10, '2022-07-13 21:10:06', '2022-07-13 21:10:06', 1),
-(8, 2, 1, 'assets/logo/noimage.png', 'BR.07.006', 'Pino Ice Cup', 'Testttt', 1, 0, 30, '2022-07-17 16:03:28', '2022-07-17 16:03:28', 1);
+(8, 2, 1, 'assets/logo/noimage.png', 'BR.07.006', 'Pino Ice Cup', 'Testttt', 1, 0, 30, '2022-07-17 16:03:28', '2022-07-17 16:03:28', 1),
+(9, 4, 1, 'assets/logo/noimage.png', '13050012', 'Test Nama Barang sss', 'Test Deskripsi', 1, 0, 50, '2022-07-22 18:32:46', '2022-07-22 18:35:41', 1);
 
 -- --------------------------------------------------------
 
@@ -326,7 +330,9 @@ INSERT INTO `tb_det_transaksi` (`id`, `id_barang`, `id_transaksi`, `id_stok_bara
 (32, 7, 8, 23, 5, 2000, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1),
 (33, 5, 8, 0, 3, 15000, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1),
 (34, 7, 8, 16, 2, 2000, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1),
-(35, 8, 8, 0, 39, 6000, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1);
+(35, 8, 8, 0, 39, 6000, '2022-07-21 18:55:33', '2022-07-21 18:55:33', 1),
+(36, 8, 9, 0, 11, 7000, '2022-07-22 19:09:40', '2022-07-22 19:09:40', 9),
+(37, 9, 9, 0, 20, 7000, '2022-07-22 19:14:50', '2022-07-22 19:14:50', 1);
 
 -- --------------------------------------------------------
 
@@ -357,7 +363,8 @@ INSERT INTO `tb_harga_barang` (`id_harga_barang`, `id_barang`, `harga_beli`, `ha
 (10, 7, 1000, 2000, 1500, '2022-07-13 21:10:06', '2022-07-13 21:10:06', 1),
 (11, 8, 1000, 2000, 1500, '2022-07-17 16:03:29', '2022-07-17 16:03:29', 1),
 (12, 8, 900, 1500, 1000, '2022-07-17 16:04:19', '2022-07-17 16:04:19', 1),
-(13, 8, 5000, 7000, 6000, '2022-07-17 18:28:40', '2022-07-17 18:28:40', 1);
+(13, 8, 5000, 7000, 6000, '2022-07-17 18:28:40', '2022-07-17 18:28:40', 1),
+(14, 9, 5000, 7000, 6000, '2022-07-22 18:32:46', '2022-07-22 18:32:46', 1);
 
 -- --------------------------------------------------------
 
@@ -375,6 +382,14 @@ CREATE TABLE `tb_keranjang_belanja` (
   `updated_at` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_keranjang_belanja`
+--
+
+INSERT INTO `tb_keranjang_belanja` (`id`, `id_barang`, `is_barang_has_expired_date`, `id_stok_barang`, `qty`, `created_at`, `updated_at`, `created_by`) VALUES
+(36, 9, 0, 0, 60, '2022-07-22 19:07:32', '2022-07-22 19:08:46', 1),
+(37, 8, 0, 0, 30, '2022-07-22 19:08:58', '2022-07-22 19:08:58', 1);
 
 -- --------------------------------------------------------
 
@@ -628,7 +643,17 @@ INSERT INTO `tb_logs_activity` (`id_log`, `table`, `action`, `main_data`, `data_
 (226, 'tb_stok_barang', 'Add stok barang.', '{\"_token\":\"Lk60YakMxPNGfmMtSql4G1yQaVthgAUtvrz6tlCs\",\"id_barang\":\"2\",\"is_kadaluarsa_active\":\"0\",\"tgl_kadaluarsa\":\"2022-07-21\",\"stok\":\"50\"}', '\"\"', '\"\"', '2022-07-21 11:39:39', NULL, 1),
 (227, 'tb_stok_opname', 'Menambahkan data stok opname baru.', '{\"_token\":\"Lk60YakMxPNGfmMtSql4G1yQaVthgAUtvrz6tlCs\",\"tgl_opname\":\"2022-07-21\",\"id_barang\":[\"2\"],\"qty_system\":[\"60\"],\"qty_real\":[\"100\"],\"qty_varian\":[\"40.0\"],\"keterangan\":[\"Ada penambahan barang\"]}', '\"\"', '\"\"', '2022-07-21 11:40:01', NULL, 1),
 (228, 'tb_stok_opname', 'Menambahkan data stok opname baru.', '{\"_token\":\"Lk60YakMxPNGfmMtSql4G1yQaVthgAUtvrz6tlCs\",\"tgl_opname\":\"2022-07-21\",\"id_barang\":[\"5\",\"6\"],\"qty_system\":[\"13\",\"274\"],\"qty_real\":[\"20\",\"134\"],\"qty_varian\":[\"7.0\",\"-140.0\"],\"keterangan\":[\"test\",\"dulu\"]}', '\"\"', '\"\"', '2022-07-21 11:40:45', NULL, 1),
-(229, 'tb_transaksi', 'Menambahkan transaksi baru.', '{\"_token\":\"Lk60YakMxPNGfmMtSql4G1yQaVthgAUtvrz6tlCs\",\"id_barang\":[\"7\",\"5\",\"7\",\"8\"],\"id_stok_barang\":[\"23\",\"0\",\"16\",\"0\"],\"tgl_trx\":\"2022-07-21T18:55:10\",\"nama_pembeli\":\"Pembeli Test\",\"keterangan\":\"Keterangan\",\"cart_total\":\"293,000\",\"cart_diskon\":\"5,000\",\"cart_sub\":\"288,000\",\"cart_dibayarkan\":\"300,000\",\"cart_kembalian\":\"12,000\"}', '\"\"', '\"\"', '2022-07-21 11:55:33', NULL, 1);
+(229, 'tb_transaksi', 'Menambahkan transaksi baru.', '{\"_token\":\"Lk60YakMxPNGfmMtSql4G1yQaVthgAUtvrz6tlCs\",\"id_barang\":[\"7\",\"5\",\"7\",\"8\"],\"id_stok_barang\":[\"23\",\"0\",\"16\",\"0\"],\"tgl_trx\":\"2022-07-21T18:55:10\",\"nama_pembeli\":\"Pembeli Test\",\"keterangan\":\"Keterangan\",\"cart_total\":\"293,000\",\"cart_diskon\":\"5,000\",\"cart_sub\":\"288,000\",\"cart_dibayarkan\":\"300,000\",\"cart_kembalian\":\"12,000\"}', '\"\"', '\"\"', '2022-07-21 11:55:33', NULL, 1),
+(230, 'barang', 'Menambahkan barang baru.', '{\"_token\":\"0Zk1SFm0Ob4IbkhqiJDaNGPhoH2cRhhS7CtO51Ny\",\"id_satuan\":\"1\",\"id_kategori\":\"4\",\"nama_barang\":\"Test Nama Barang\",\"kode_barang\":\"130500\",\"deskripsi\":\"Test Deskripsi\",\"harga_beli\":\"5,000\",\"harga_grosir\":\"6,000\",\"harga_eceran\":\"7,000\",\"qty_grosir\":\"50\",\"is_expiracy\":\"0\",\"tgl_kadaluarsa\":\"2022-07-22\",\"stok\":\"100\",\"status\":\"1\"}', '\"\"', '\"\"', '2022-07-22 11:32:46', NULL, 1),
+(231, 'barang', 'Mengupdate data barang.', '{\"_token\":\"0Zk1SFm0Ob4IbkhqiJDaNGPhoH2cRhhS7CtO51Ny\",\"kode_barang\":\"130500\",\"id\":\"9\",\"id_satuan\":\"1\",\"id_kategori\":\"4\",\"nama_barang\":\"Test Nama Barang sss\",\"deskripsi\":\"Test Deskripsi\",\"is_expiracy\":\"0\",\"status\":\"1\",\"qty_grosir\":\"50\"}', '\"\"', '\"\"', '2022-07-22 11:35:26', NULL, 1),
+(232, 'barang', 'Mengupdate data barang.', '{\"_token\":\"0Zk1SFm0Ob4IbkhqiJDaNGPhoH2cRhhS7CtO51Ny\",\"kode_barang\":\"13050012\",\"id\":\"9\",\"id_satuan\":\"1\",\"id_kategori\":\"4\",\"nama_barang\":\"Test Nama Barang sss\",\"deskripsi\":\"Test Deskripsi\",\"is_expiracy\":\"0\",\"status\":\"1\",\"qty_grosir\":\"50\"}', '\"\"', '\"\"', '2022-07-22 11:35:41', NULL, 1),
+(233, 'tb_keranjang_belanja', 'Menambahkan item ke keranjang belanja.', '{\"id_barang\":\"9\",\"is_barang_has_expired_date\":\"0\",\"id_stok_barang\":\"0\",\"qty\":\"50\"}', '\"\"', '\"\"', '2022-07-22 12:07:32', NULL, 1),
+(234, 'tb_keranjang_belanja', 'Menambahkan item ke keranjang belanja.', '{\"id_barang\":\"9\",\"is_barang_has_expired_date\":\"0\",\"id_stok_barang\":\"0\",\"qty\":\"10\"}', '\"\"', '\"\"', '2022-07-22 12:08:46', NULL, 1),
+(235, 'tb_keranjang_belanja', 'Menambahkan item ke keranjang belanja.', '{\"id_barang\":\"8\",\"is_barang_has_expired_date\":\"0\",\"id_stok_barang\":\"0\",\"qty\":\"30\"}', '\"\"', '\"\"', '2022-07-22 12:08:58', NULL, 1),
+(236, 'tb_keranjang_belanja', 'Menambahkan item ke keranjang belanja.', '{\"id_barang\":\"8\",\"is_barang_has_expired_date\":\"0\",\"id_stok_barang\":\"0\",\"qty\":\"11\"}', '\"\"', '\"\"', '2022-07-22 12:09:34', NULL, 9),
+(237, 'tb_transaksi', 'Menambahkan transaksi baru.', '{\"_token\":\"0Zk1SFm0Ob4IbkhqiJDaNGPhoH2cRhhS7CtO51Ny\",\"id_barang\":[\"8\"],\"id_stok_barang\":[\"0\"],\"tgl_trx\":\"2022-07-22T19:09:25\",\"nama_pembeli\":\"Pembeli Test\",\"keterangan\":\"testtt\",\"cart_total\":\"77,000\",\"cart_diskon\":\"0\",\"cart_sub\":\"77,000\",\"cart_dibayarkan\":\"0\",\"cart_kembalian\":\"-77,000\"}', '\"\"', '\"\"', '2022-07-22 12:09:40', NULL, 9),
+(238, 'tb_det_transaksi', 'Menambahkan item ke detail transaksi.', '{\"id_barang\":\"9\",\"is_barang_has_expired_date\":\"0\",\"id_stok_barang\":\"0\",\"qty\":\"20\"}', '\"\"', '\"\"', '2022-07-22 12:14:51', NULL, 1),
+(239, 'tb_transaksi', 'Update transaksi.', '{\"_token\":\"0Zk1SFm0Ob4IbkhqiJDaNGPhoH2cRhhS7CtO51Ny\",\"id_transaksi\":\"9\",\"id_barang\":[\"8\",\"9\"],\"id_stok_barang\":[\"0\",\"0\"],\"tgl_trx\":\"2022-07-22T19:09:25\",\"nama_pembeli\":\"Pembeli Test\",\"keterangan\":\"testtt\",\"cart_total\":\"217,000\",\"cart_diskon\":\"1,000\",\"cart_sub\":\"216,000\",\"cart_dibayarkan\":\"500,000\",\"cart_kembalian\":\"284,000\"}', '\"\"', '{\"id\":\"9\"}', '2022-07-22 12:15:08', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -686,13 +711,14 @@ INSERT INTO `tb_stok_barang` (`id_stok_barang`, `id_barang`, `stok`, `tgl_kadalu
 (20, 4, 16.2, '2022-07-14', '2022-07-14 11:42:46', '2022-07-14 11:42:46', 1),
 (23, 7, 10, '2023-07-30', '2022-07-15 20:09:27', '2022-07-15 21:17:54', 1),
 (26, 4, 9, '2022-07-15', '2022-07-15 21:23:49', '2022-07-15 21:25:53', 1),
-(29, 8, 61, '2022-07-17', '2022-07-17 16:03:30', '2022-07-21 18:55:33', 1),
+(29, 8, 50, '2022-07-17', '2022-07-17 16:03:30', '2022-07-22 19:15:08', 1),
 (31, 4, 100, '2022-07-21', '2022-07-21 16:35:34', '2022-07-21 16:35:34', 1),
 (32, 4, 25, '2022-07-21', '2022-07-21 16:59:25', '2022-07-21 16:59:25', 10),
 (34, 7, 43, '2022-07-21', '2022-07-21 17:03:20', '2022-07-21 18:55:33', 1),
 (37, 2, 100, '2022-07-21', '2022-07-21 18:40:01', '2022-07-21 18:40:01', 1),
 (38, 5, 17, '2022-07-21', '2022-07-21 18:40:45', '2022-07-21 18:55:33', 1),
-(39, 6, 134, '2022-07-21', '2022-07-21 18:40:45', '2022-07-21 18:40:45', 1);
+(39, 6, 134, '2022-07-21', '2022-07-21 18:40:45', '2022-07-21 18:40:45', 1),
+(40, 9, 80, '2022-07-22', '2022-07-22 18:32:46', '2022-07-22 19:15:08', 1);
 
 -- --------------------------------------------------------
 
@@ -741,7 +767,8 @@ CREATE TABLE `tb_transaksi` (
 --
 
 INSERT INTO `tb_transaksi` (`id`, `kode_transaksi`, `nama_pembeli`, `keterangan`, `jumlah_harga`, `diskon_nominal`, `nominal_bayar`, `status`, `created_at`, `updated_at`, `created_by`) VALUES
-(8, 'TRX-202207-POLOOX', 'Pembeli Test', 'Keterangan', 293000, 5000, 300000, 'PAID', '2022-07-21 18:55:10', '2022-07-21 18:55:33', 1);
+(8, 'TRX-202207-POLOOX', 'Pembeli Test', 'Keterangan', 293000, 5000, 300000, 'PAID', '2022-07-21 18:55:10', '2022-07-21 18:55:33', 1),
+(9, 'TRX-202207-SEX6PL', 'Pembeli Test', 'testtt', 217000, 1000, 500000, 'PAID', '2022-07-22 19:09:25', '2022-07-22 19:15:08', 9);
 
 -- --------------------------------------------------------
 
@@ -774,11 +801,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `photo_url`, `id_supplier`, `name`, `email`, `email_verified_at`, `username`, `password`, `mobile_number`, `otp`, `remember_token`, `created_by`, `created_at`, `updated_at`, `role`, `last_login`, `status`) VALUES
-(1, 'uploads/foto/_0000.jpg', 0, 'Admin', 'admin@admin.com', NULL, 'admin', '$2y$10$UWk0FFdd41NwCO.dmHxV/.CVznBWDYSRcmcOgbIahtR2eyRpE7Ifu', '0000', NULL, NULL, 0, NULL, '2022-07-21 18:55:05', 'Admin', '2022-07-21 18:55:05', 'Aktif'),
-(7, 'uploads/foto/1_081.jpg', 0, 'Pemilik', 'user@pemilik.com', NULL, 'pemilik', '$2y$10$kAlyrW.Qn7/MhRZn4hRJ4uPtlPT8YwNcSvU.Mdf25rGs3n9Bzlq4G', '081', NULL, NULL, 1, '2022-07-07 11:59:18', '2022-07-21 18:47:53', 'Pemilik', '2022-07-21 18:47:53', 'Aktif'),
+(1, 'uploads/foto/_0000.jpg', 0, 'Admin', 'admin@admin.com', NULL, 'admin', '$2y$10$UWk0FFdd41NwCO.dmHxV/.CVznBWDYSRcmcOgbIahtR2eyRpE7Ifu', '0000', NULL, NULL, 0, NULL, '2022-07-22 19:09:46', 'Admin', '2022-07-22 19:09:46', 'Aktif'),
+(7, 'uploads/foto/1_081.jpg', 0, 'Pemilik', 'user@pemilik.com', NULL, 'pemilik', '$2y$10$kAlyrW.Qn7/MhRZn4hRJ4uPtlPT8YwNcSvU.Mdf25rGs3n9Bzlq4G', '081', NULL, NULL, 1, '2022-07-07 11:59:18', '2022-07-21 20:44:37', 'Pemilik', '2022-07-21 20:44:37', 'Aktif'),
 (8, 'assets/logo/noimage.png', 1, 'User Supplier 1', 'user1@supplier.com', NULL, 'supplier1', '$2y$10$qPXoFjP7/IS/puh4wvO4/ekRcDi7IJsdwVmvOFtRiB7IKYeHnpzCu', '1234', NULL, NULL, 1, '2022-07-07 17:29:09', '2022-07-15 21:37:13', 'Supplier', '2022-07-15 21:37:13', 'Aktif'),
-(9, 'assets/logo/noimage.png', 0, 'Pembeli Test', 'user@pembeli.com', NULL, 'pembeli', '$2y$10$bAYVen7EkjQ5aw/v1aiciOXMEtfV1S2bJd8uLn3rAJBtf1i/UwDnS', '0123000', NULL, NULL, 1, '2022-07-14 09:14:37', '2022-07-21 18:54:54', 'Pembeli', '2022-07-21 18:54:54', 'Aktif'),
-(10, 'assets/logo/noimage.png', 5, 'Adam Supply User', 'adam@supply.com', NULL, 'adamsupply', '$2y$10$kCxrN.gspRsujNbH1z2pbOuIRtuGQguBvpCOvv.02Wkmob6gN5p7m', '0828388', NULL, NULL, 1, '2022-07-15 16:52:32', '2022-07-21 18:54:42', 'Supplier', '2022-07-21 18:54:42', 'Aktif');
+(9, 'assets/logo/noimage.png', 0, 'Pembeli Test', 'user@pembeli.com', NULL, 'pembeli', '$2y$10$bAYVen7EkjQ5aw/v1aiciOXMEtfV1S2bJd8uLn3rAJBtf1i/UwDnS', '0123000', NULL, NULL, 1, '2022-07-14 09:14:37', '2022-07-22 19:09:23', 'Pembeli', '2022-07-22 19:09:23', 'Aktif'),
+(10, 'assets/logo/noimage.png', 5, 'Adam Supply User', 'adam@supply.com', NULL, 'adamsupply', '$2y$10$kCxrN.gspRsujNbH1z2pbOuIRtuGQguBvpCOvv.02Wkmob6gN5p7m', '0828388', NULL, NULL, 1, '2022-07-15 16:52:32', '2022-07-21 21:00:35', 'Supplier', '2022-07-21 21:00:35', 'Aktif');
 
 --
 -- Indexes for dumped tables
@@ -910,13 +937,13 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `tb_aktivitas_barang`
 --
 ALTER TABLE `tb_aktivitas_barang`
-  MODIFY `id_aktivitas_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id_aktivitas_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tb_det_po`
@@ -934,25 +961,25 @@ ALTER TABLE `tb_det_stok_opname`
 -- AUTO_INCREMENT for table `tb_det_transaksi`
 --
 ALTER TABLE `tb_det_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `tb_harga_barang`
 --
 ALTER TABLE `tb_harga_barang`
-  MODIFY `id_harga_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_harga_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tb_keranjang_belanja`
 --
 ALTER TABLE `tb_keranjang_belanja`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `tb_logs_activity`
 --
 ALTER TABLE `tb_logs_activity`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 
 --
 -- AUTO_INCREMENT for table `tb_po`
@@ -964,7 +991,7 @@ ALTER TABLE `tb_po`
 -- AUTO_INCREMENT for table `tb_stok_barang`
 --
 ALTER TABLE `tb_stok_barang`
-  MODIFY `id_stok_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_stok_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `tb_stok_opname`
@@ -976,7 +1003,7 @@ ALTER TABLE `tb_stok_opname`
 -- AUTO_INCREMENT for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

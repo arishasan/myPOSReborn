@@ -249,11 +249,21 @@
 
                     <div class="row">
 
-                      <div class="col-lg-12">
+                      <div class="col-lg-6">
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label" for="nama_barang">Nama Barang <sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
-                            <input class="form-control" type="text" id="nama_barang" name="nama_barang" placeholder="Required" data-parsley-required="true" />
+                            <input class="form-control" type="text" id="nama_barang" name="nama_barang" value="{{ old('nama_barang') }}" placeholder="Required" data-parsley-required="true" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="form-group row mb-3">
+                          <label class="col-lg-12 col-form-label form-label" for="kode_barang">Kode Barang <sup class="text-danger">*</sup></label>
+                          <div class="col-lg-12">
+                            <input class="form-control" type="text" id="kode_barang" name="kode_barang" value="{{ old('kode_barang') }}" placeholder="Required" data-parsley-required="true" />
+                            <center><small class="text-success">Arahkan mouse pada input field di atas kemudian scan barcode pada barang untuk menginputkan kode barang secara otomatis</small></center>
                           </div>
                         </div>
                       </div>
@@ -264,9 +274,9 @@
 
                       <div class="col-lg-12">
                         <div class="form-group row mb-3">
-                          <label class="col-lg-12 col-form-label form-label" for="deskripsi">Deskripsi <sup class="text-danger">*</sup></label>
+                          <label class="col-lg-12 col-form-label form-label" for="deskripsi">Deskripsi</label>
                           <div class="col-lg-12">
-                            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3"></textarea>
+                            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3">{{ old('deskripsi') }}</textarea>
                           </div>
                         </div>
                       </div>
@@ -279,7 +289,7 @@
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label">Harga Beli <sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
-                            <input class="form-control currency" type="text" value="0" id="harga_beli" name="harga_beli" placeholder="Required" data-parsley-required="true" />
+                            <input class="form-control currency" type="text" value="{{ old('harga_beli') == null ? 0 : old('harga_beli') }}" id="harga_beli" name="harga_beli" placeholder="Required" data-parsley-required="true" />
                           </div>
                         </div>
                       </div>
@@ -287,7 +297,7 @@
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label">Harga Jual Grosir <sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
-                            <input class="form-control currency" type="text" value="0" id="harga_grosir" name="harga_grosir" placeholder="Required" data-parsley-required="true" />
+                            <input class="form-control currency" type="text" value="{{ old('harga_grosir') == null ? 0 : old('harga_grosir') }}" id="harga_grosir" name="harga_grosir" placeholder="Required" data-parsley-required="true" />
                           </div>
                         </div>
                       </div>
@@ -295,15 +305,15 @@
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label">Harga Jual Eceran<sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
-                            <input class="form-control currency" type="text" value="0" id="harga_eceran" name="harga_eceran" placeholder="Required" data-parsley-required="true" />
+                            <input class="form-control currency" type="text" value="{{ old('harga_eceran') == null ? 0 : old('harga_eceran') }}" id="harga_eceran" name="harga_eceran" placeholder="Required" data-parsley-required="true" />
                           </div>
                         </div>
                       </div>
                       <div class="col-lg-3">
                         <div class="form-group row mb-3">
-                          <label class="col-lg-12 col-form-label form-label">Harga Grosir Saat QTY Lebih Dari<sup class="text-danger">*</sup></label>
+                          <label class="col-lg-12 col-form-label form-label">Auto Harga Grosir Saat QTY Lebih Dari<sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
-                            <input class="form-control currency" type="text" value="0" id="qty_grosir" name="qty_grosir" placeholder="Required" data-parsley-required="true" />
+                            <input class="form-control" type="text" value="{{ old('qty_grosir') == null ? 0 : old('qty_grosir') }}" id="qty_grosir" name="qty_grosir" placeholder="Required" data-parsley-required="true" />
                           </div>
                         </div>
                       </div>
@@ -337,7 +347,7 @@
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label" for="stok">Stok Awal<sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
-                            <input class="form-control" type="number" value="0" min="0" step="0.1" id="stok" name="stok" placeholder="Required" data-parsley-required="true"/>
+                            <input class="form-control" type="number" value="{{ old('stok') == null ? 0 : old('stok') }}" min="0" step="0.1" id="stok" name="stok" placeholder="Required" data-parsley-required="true"/>
                           </div>
                         </div>
                       </div>

@@ -99,7 +99,9 @@
                         <div class="form-group row mb-3">
                           <label class="col-lg-12 col-form-label form-label" for="kode_barang">Kode Barang</label>
                           <div class="col-lg-12">
-                            <h5 class="text-primary" style="font-size: 20px">{{ $data_barang->kode_barang }}</h5>
+                            <!-- <h5 class="text-primary" style="font-size: 20px">{{ $data_barang->kode_barang }}</h5> -->
+                            <input class="form-control" type="text" id="kode_barang" name="kode_barang" value="{{ $data_barang->kode_barang }}" placeholder="Required" data-parsley-required="true" />
+                            <center><small class="text-success">Arahkan mouse pada input field di atas kemudian scan barcode pada barang untuk menginputkan kode barang secara otomatis</small></center>
                           </div>
                         </div>
                       </div>
@@ -228,9 +230,9 @@
                       </div>
                       <div class="col-lg">
                         <div class="form-group row mb-3">
-                          <label class="col-lg-12 col-form-label form-label">Harga Grosir Saat QTY Lebih Dari<sup class="text-danger">*</sup></label>
+                          <label class="col-lg-12 col-form-label form-label">Auto Harga Grosir Saat QTY Lebih Dari<sup class="text-danger">*</sup></label>
                           <div class="col-lg-12">
-                            <input class="form-control currency" type="text" value="<?= number_format($data_barang->qty_min_grosir) ?>" id="qty_grosir" name="qty_grosir" placeholder="Required" data-parsley-required="true" />
+                            <input class="form-control" type="text" value="<?= number_format($data_barang->qty_min_grosir) ?>" id="qty_grosir" name="qty_grosir" placeholder="Required" data-parsley-required="true" />
                           </div>
                         </div>
                       </div>

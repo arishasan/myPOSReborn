@@ -117,6 +117,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('transaksi/update_subtotal/{id1}/{id2}', 'TransaksiController@update_subtotal_trx');
 
+		Route::get('transaksi/get_barang_by_kode/{kode?}', 'TransaksiController@get_barangKode');
+
 		// END TRANSAKSI
 
 

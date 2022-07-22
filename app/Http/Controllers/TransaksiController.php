@@ -1170,4 +1170,24 @@ class TransaksiController extends Controller
 
     }
 
+    public function get_barangKode($kode = null){
+
+        if($kode == null){
+            echo 'no';
+        }else{
+
+            $getBarang = BarangModel::select(DB::raw('tb_barang.*, satuan.nama as `nama_satuan`'))->join('satuan', 'satuan.id', '=', 'tb_barang.id_satuan')->where('tb_barang.status', 1)->where('tb_barang.kode_barang', $kode)->first();
+
+            if(null !== $getBarang){
+
+                echo json_encode($getBarang);
+
+            }else{
+                echo "no";
+            }
+
+        }
+
+    }
+
 }

@@ -118,7 +118,6 @@ class UserController extends Controller
                 if($req->foto){
                     $imageName = $data->id.'_'.$data->mobile_number.'.'.$req->foto->getClientOriginalExtension();
                     $req->foto->move($location, $imageName);
-                    // $url_foto = asset('uploads').'/foto/'.$imageName;
                     $url_foto = 'uploads/foto/'.$imageName;
                 }else{
                     $url_foto = $data->photo_url;
