@@ -280,7 +280,7 @@
               <div class="form-group row mb-3">
                 <label class="col-lg-12 col-form-label form-label" for="vendor">Barang</label>
                 <div class="col-lg-12">
-                  <select class="default-select2 form-control" name="id_barang" id="barangSelected">
+                  <select class="default-select2 form-control" name="id_barang" id="barangSelected" required>
                     <option value="">[ Silahkan Pilih ]</option>
                     @foreach($data_barang as $val)
                       <option value="{{ $val->id }}">{{ $val->kode_barang }} - {{ $val->nama_barang }} <small>({{ $val->nama_satuan }})</small></option>
@@ -293,7 +293,7 @@
               <div class="form-group row mb-3">
                 <label class="col-lg-12 col-form-label form-label">QTY</label>
                 <div class="col-lg-12">
-                  <input type="number" class="form-control" name="qty_item" value="1" min="1" step="0.1">
+                  <input type="number" class="form-control" name="qty_item" value="1" min="1" step="0.1" required>
                 </div>
               </div>
             </div>

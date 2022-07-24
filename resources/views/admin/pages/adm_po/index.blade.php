@@ -556,6 +556,15 @@
           });
         }else{
 
+          if(qty.val() <= 0){
+            swal({
+              title: 'Perhatian',
+              text: 'QTY tidak boleh minus atau kosong!',
+              icon: 'error',
+            });
+            return false;
+          }
+
           let kode_baris = $('.kode_'+barang.val());
           if(kode_baris.length > 0){
 

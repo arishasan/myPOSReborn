@@ -93,6 +93,11 @@ class TrxPoController extends Controller
 
         try {
 
+            if($req->qty_item <= 0){
+                Session::flash('error', 'QTY tidak boleh minus atau kosong!');
+                return redirect("transaksi/po/edit".'/'.md5($req->id_po));
+            }
+
             $cekItem = DetPoModel::where('id_barang', $req->id_barang)->where('id_po', $req->id_po)->first();
 
             if(null !== $cekItem){
@@ -522,6 +527,8 @@ class TrxPoController extends Controller
                 }
 
             }
+
+            HelperModel::saveLog('tb_po', 'Memproses permintaan barang dengan status '.$stat, $req->all(), '', '');
 
             Session::flash('success', 'Berhasil memproses data PO!');
             return redirect()->route('transaksi-po');

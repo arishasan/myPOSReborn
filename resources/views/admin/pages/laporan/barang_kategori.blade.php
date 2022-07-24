@@ -275,7 +275,7 @@
 
           });
           
-          $('#total_nominal').text("Rp. " + tot.toLocaleString());
+          $('#total_nominal').text("Rp. " + tot.toLocaleString('en-US'));
 
         },
         columns: [

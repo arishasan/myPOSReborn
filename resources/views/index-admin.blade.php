@@ -537,16 +537,16 @@
       $.get(link, function(res){
         let parse = JSON.parse(res);
 
-        $('#tot_trx').text(parse.tot_trx.toLocaleString());
-        $('#tot_paid').text(parse.tot_paid.toLocaleString());
-        $('#tot_pending').text(parse.tot_pending.toLocaleString());
-        $('#tot_void').text(parse.tot_void.toLocaleString());
-        $('#tot_cancel').text(parse.tot_cancel.toLocaleString());
-        $('#jml_trx_paid').text(parse.jml_trx_paid.toLocaleString());
-        $('#jml_trx_pending').text(parse.jml_trx_pending.toLocaleString());
-        $('#jml_trx_void').text(parse.jml_trx_void.toLocaleString());
-        $('#jml_trx_cancel').text(parse.jml_trx_cancel.toLocaleString());
-        $('#jml_trx_po').text(parse.jml_trx_po.toLocaleString());
+        $('#tot_trx').text(parse.tot_trx.toLocaleString('en-US'));
+        $('#tot_paid').text(parse.tot_paid.toLocaleString('en-US'));
+        $('#tot_pending').text(parse.tot_pending.toLocaleString('en-US'));
+        $('#tot_void').text(parse.tot_void.toLocaleString('en-US'));
+        $('#tot_cancel').text(parse.tot_cancel.toLocaleString('en-US'));
+        $('#jml_trx_paid').text(parse.jml_trx_paid.toLocaleString('en-US'));
+        $('#jml_trx_pending').text(parse.jml_trx_pending.toLocaleString('en-US'));
+        $('#jml_trx_void').text(parse.jml_trx_void.toLocaleString('en-US'));
+        $('#jml_trx_cancel').text(parse.jml_trx_cancel.toLocaleString('en-US'));
+        $('#jml_trx_po').text(parse.jml_trx_po.toLocaleString('en-US'));
 
         let str = '';
 
@@ -581,7 +581,7 @@
                       '<div class="col-lg-4 text-end">'+
                         '<b class="'+stat+'">'+val.status+'</b>'+
                         '<br/>'+
-                        'Rp. '+(parseFloat(val.jumlah_harga) - parseFloat(val.diskon_nominal)).toLocaleString()+
+                        'Rp. '+(parseFloat(val.jumlah_harga) - parseFloat(val.diskon_nominal)).toLocaleString('en-US')+
                       '</div>'+
                     '</div>'+
                   '</div>'+

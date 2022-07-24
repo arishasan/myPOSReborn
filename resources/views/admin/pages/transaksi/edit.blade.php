@@ -523,19 +523,19 @@
           '<div class="col-lg-2"><a href="'+val.image+'" target="_blank"><img style="width:40px;max-height:auto;" class="img-responsive" alt="NONE" src="'+val.image+'" /></a></div>'+
           '<div class="col-lg-7">'+
           '<label>'+val.kode_barang+' - '+val.nama_barang+
-          '<br/>' + (val.is_barang_has_expired_date == 1 ? "<small>Exp: " + val.expired_date + '</small><br/>' : '') + '<b> Rp. ' + harga.toLocaleString() + ' <small>x'+ val.qty_input +'</small></b>'+
+          '<br/>' + (val.is_barang_has_expired_date == 1 ? "<small>Exp: " + val.expired_date + '</small><br/>' : '') + '<b> Rp. ' + harga.toLocaleString('en-US') + ' <small>x'+ val.qty_input +'</small></b>'+
           (val.is_avail == 0 ? '<br/><small>Stok item ini kurang dari jumlah QTY yang diinputkan.</small>' : '') +
           '</label></div>'+
           '<div class="col-lg-3 align-self-end" style="text-align: end">'+
           '<button type="button" class="btn btn-outline-danger btn-sm delete_item_cart" data-id="'+val.id_det+'"><i class="fa fa-trash"></i></button>' + 
-          '<label> <b> Rp. ' + total.toLocaleString() + '</b>'+
+          '<label> <b> Rp. ' + total.toLocaleString('en-US') + '</b>'+
           '</label></div>'+
           '</div>' +
           '</div></div>';
 
         });
 
-        $('#cart_total').val(subTotal.toLocaleString());
+        $('#cart_total').val(subTotal.toLocaleString('en-US'));
 
         let linkUpdt = "{{ url('transaksi/update_subtotal/') }}/{{ $data_trx->id }}/"+subTotal;
 
@@ -599,8 +599,8 @@
 
     function hitungDiskon(){
 
-      let total = $('#cart_total').val().replace(",","");
-      let cart_diskon = $('#cart_diskon').val().replace(",","");
+      let total = $('#cart_total').val().replaceAll(",","");
+      let cart_diskon = $('#cart_diskon').val().replaceAll(",","");
 
       if(cart_diskon == '' || cart_diskon == null){
         $('#cart_diskon').val(0);
@@ -609,7 +609,7 @@
 
       let subTotal = parseFloat(total) - parseFloat(cart_diskon);
 
-      $('#cart_sub').val(subTotal.toLocaleString());
+      $('#cart_sub').val(subTotal.toLocaleString('en-US'));
 
       hitungKembalian();
 
@@ -617,8 +617,8 @@
 
     function hitungKembalian(){
 
-      let subtotal = $('#cart_sub').val().replace(",","");
-      let cart_dibayarkan = $('#cart_dibayarkan').val().replace(",","");
+      let subtotal = $('#cart_sub').val().replaceAll(",","");
+      let cart_dibayarkan = $('#cart_dibayarkan').val().replaceAll(",","");
 
       if(cart_dibayarkan == '' || cart_dibayarkan == null){
         $('#cart_dibayarkan').val(0);
@@ -627,7 +627,7 @@
 
       let kembalian = parseFloat(cart_dibayarkan) - parseFloat(subtotal);
 
-      $('#cart_kembalian').val(kembalian.toLocaleString());
+      $('#cart_kembalian').val(kembalian.toLocaleString('en-US'));
 
     }
 
@@ -719,8 +719,8 @@
               $('#cart_satuan_barang').text(satuan);
               $('#cart_auto_grosir').text(decode.qty_min_grosir);
 
-              $('#cart_harga_grosir_txt').text("Rp. " + decode.harga_grosir.toLocaleString());
-              $('#cart_harga_eceran_txt').text("Rp. " + decode.harga_eceran.toLocaleString());
+              $('#cart_harga_grosir_txt').text("Rp. " + decode.harga_grosir.toLocaleString('en-US'));
+              $('#cart_harga_eceran_txt').text("Rp. " + decode.harga_eceran.toLocaleString('en-US'));
 
               $('#holder_add_cart').html(pilihKadaluarsa);
               $('#modal_add_cart').modal('show');
@@ -1015,8 +1015,8 @@
           $('#cart_satuan_barang').text(satuan);
           $('#cart_auto_grosir').text(decode.qty_min_grosir);
 
-          $('#cart_harga_grosir_txt').text("Rp. " + decode.harga_grosir.toLocaleString());
-          $('#cart_harga_eceran_txt').text("Rp. " + decode.harga_eceran.toLocaleString());
+          $('#cart_harga_grosir_txt').text("Rp. " + decode.harga_grosir.toLocaleString('en-US'));
+          $('#cart_harga_eceran_txt').text("Rp. " + decode.harga_eceran.toLocaleString('en-US'));
 
           $('#holder_add_cart').html(pilihKadaluarsa);
           $('#modal_add_cart').modal('show');
