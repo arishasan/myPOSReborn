@@ -77,7 +77,7 @@ class LaporanController extends Controller
                                 data-kode="'.$row->kode_transaksi.'"
                                 data-id="'.md5($row->id).'" class="text-info detil_transaksi"><i class="fa fa-info-circle"></i></a>';
 
-                    return '<b>'.$row->kode_transaksi.'</b> '.$detail;
+                    return '<b>'.$row->kode_transaksi.'</b>';
 
                 })
                 ->editColumn('jumlah_harga', function($row){
@@ -138,15 +138,6 @@ class LaporanController extends Controller
         ];
 
         return view('admin.pages.adm_po.index')->with($data);
-    }
-
-    public function get_detail_transaksi($id){
-
-        $data = [
-            'data_trx' => TransaksiModel::where(DB::raw('md5(id)'), $id)->first()
-        ];
-        return view('admin.pages.laporan.true_detail_transaksi')->with($data);
-
     }
 
     public function get_list_transaksi(Request $req){

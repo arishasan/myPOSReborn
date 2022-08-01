@@ -183,7 +183,6 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('laporan/transaksi', 'LaporanController@transaksi_index')->name('laporan-transaksi');
 		Route::post('laporan/get_transaksi', 'LaporanController@transaksi_get')->name('get-laporan-transaksi');
-		Route::get('laporan/get_detail_transaksi/{id}', 'LaporanController@get_detail_transaksi');
 
 		Route::get('laporan/stok_opname', 'LaporanController@index_opname')->name('laporan-opname');
 		Route::get('laporan/po', 'LaporanController@index_po')->name('laporan-po');
